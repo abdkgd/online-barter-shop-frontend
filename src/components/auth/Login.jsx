@@ -1,20 +1,52 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { validateLogin } from "../../app/actions/Validation.jsx";
+import { loggedIn } from "../../app/actions/LoggedActions.jsx";
 
-const Login = () => {
+import { useDispatch, useSelector } from "react-redux";
+const Login = ({logged, setLogged}) => {
+    const dispatch = useDispatch()
+    const isValid = useSelector(state => state.validate)
+
+    const [form, setForm] = useState({
+        username: '',
+        password: '',
+    });
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.id]: e.target.value
+        })
+    };
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        console.log(form);
+        const res = await dispatch(validateLogin(form));
+        console.log(res.data);
+        if(res.data !== -1){
+            console.log(res.data);
+            dispatch(loggedIn(res.data));
+            console.log(logged);
+            setLogged(!logged);
+            console.log(logged);
+        }
+    };
+
     return (
         <div className="auth-outer">
-            <form className="auth-inner-login">
+            <form className="auth-inner-login" onSubmit={handleSubmit}>
                 <div className="loginWrapper">
                     <h3>Log in</h3>
 
                     <div className="form-group">
-                        <label>Email</label>
-                        <input type="email" className="form-control" placeholder="Enter email" />
+                        <label>Username</label>
+                        <input required type="text" id="username" className="form-control" placeholder="Enter username" onChange={handleChange}/>
                     </div>
 
                     <div className="form-group">
                         <label>Password</label>
-                        <input type="password" className="form-control" placeholder="Enter password" />
+                        <input required type="password" id="password" className="form-control" placeholder="Enter password" onChange={handleChange}/>
                     </div>
 
                     <div className="form-group">

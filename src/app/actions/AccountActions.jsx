@@ -6,6 +6,5 @@ export const addAccount = (account) => async(dispatch) => {
         dispatch({type: 'ADD_ACCOUNT', payload: account});
         return res;
     } catch (error) {
-        
     }
 };

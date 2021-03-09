@@ -2,15 +2,17 @@ import React, { useState , useEffect } from 'react'
 import blank from '../../assets/images/blank-1.png'
 import { getUsers } from '../../app/actions/UserActions.jsx'
 import { addAccount } from "../../app/actions/AccountActions.jsx";
+import { loggedIn } from "../../app/actions/LoggedActions.jsx";
 import { Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from "react-redux";
 
-const Signup = () => {
+const Signup = ({logged, setLogged}) => {
     const dispatch = useDispatch();
     const userData = useSelector(state => state.user) 
+    const loggedInID = useSelector(state => state.logged)
 
     useEffect(() => {
-        dispatch(getUsers);
+        dispatch(getUsers());
     }, [])
     
     const [profileImg, setProfileImg] = useState(blank)
@@ -91,8 +93,11 @@ const Signup = () => {
         }
         if(!postForm){
             console.log(form);
-            // const res = await dispatch(addAccount(form))
-            // console.log(res);
+            const res = await dispatch(addAccount(form));
+            console.log(res.data.id);
+            window.localStorage.clear();
+            dispatch(loggedIn(res.data.id));
+            setLogged(!logged);
         }
     };
     return (
