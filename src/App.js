@@ -8,6 +8,7 @@ import { Switch, Route } from "react-router-dom";
 import Login from './components/auth/Login.jsx'
 import SignUp from './components/auth/Signup.jsx'
 import { useState, useEffect } from "react";
+import Pages from './components/pages/Pages.jsx'
 
 function App() {
   const [logged, setLogged] = useState(false);
@@ -31,7 +32,7 @@ function App() {
       <Router>
           {
             logged && 
-            <h1>HELLO MAIN PAGE</h1>
+            <Pages />          
           }
           {!logged && 
           <div>

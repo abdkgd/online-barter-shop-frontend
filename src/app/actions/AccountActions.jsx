@@ -8,3 +8,12 @@ export const addAccount = (account) => async(dispatch) => {
     } catch (error) {
     }
 };
+
+export const getAccount = () => async(dispatch) => {
+    try {
+        const res = await api.getAccount();
+        dispatch({type: 'GET_ACCOUNT', payload: res});
+    } catch (error) {
+    }
+};
+

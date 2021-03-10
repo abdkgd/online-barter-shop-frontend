@@ -135,3 +135,304 @@ body {
   .navWrapper{
     box-shadow: 0px 0px 80px 0px rgba(23, 24, 39, 0.2);
   }
+
+  .nav-item .nav-welcome{
+    margin-left: 10px;
+  }
+  
+  .nav-welcome{
+    color:#7f7d7d;
+  }
+
+ /* SECTION TOP */
+.section-pagetop {
+  padding: 45px 0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.bg {
+  background-color: #f8f9fa;
+}
+
+/* SECTION FOOTER */
+.padding-y {
+  background-color: #ffffff;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* SEARCH */
+.SearchWrapper {
+  min-width: 900px;
+  display: grid;
+  place-items: center;
+  background-color: transparent;
+  margin-left: 80px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.SearchWrapper .search{
+  width: 100%;
+}
+
+/* Main Page */
+.main-page{
+  margin-top: 55px;
+  background-image: linear-gradient(to right, #076585, #6387a5, #9dacc3, #d1d4e1, #ffffff);
+  padding: 10px;
+}
+
+/* Seller Table */
+.TableWrapper{
+  background-color: #ffffff;
+  padding: 10px;
+  width: 90% !important;
+}
+
+/* Pagination */
+.paginationWrapper{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  
+}
+.pagination .page-item{
+  color: black !important;
+  font-size: 12px;
+}
+
+/* Image Wrapper */
+.profilePhotoWrapper {
+  width: 110px;
+  height: 110px;
+}
+
+.profilePhotoWrapper .profilePhoto{
+  border-radius: 100px;
+  width: 100%;
+  height: 100%;
+}
+
+.dpWrapper {
+  width: 130px;
+  height: 130px;
+  
+}
+
+.dpWrapper .dp {
+  width: 100%;
+  height: 100%;
+  border: #076585 solid 0.2px;
+  border-radius: 5px;
+}
+/* Logout */
+.logoutWrapper{
+  color: black;
+  font-size: 20px;
+}
+
+/* HOME */
+.homeWrapper{
+  min-height: 67vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-photo{
+  background-color: transparent;
+  width: 100%;
+  min-height: 100px;
+}
+
+.home-img-wrapper{
+  background-color: transparent;
+  margin-left: 35px;
+}
+
+.home-img-wrapper img{
+  height: 340px;
+  width: 70%;
+}
+
+.home-content{
+  width: 100%;
+  min-height: 100px;
+}
+
+.home-content-wrapper {
+  padding-right: 60px;
+  width: 500px;
+  padding-left: 250px;
+}
+
+.home-topline{
+  
+  color: #06475D;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.home-headline{
+  word-spacing: 5px;
+  margin-bottom: 10px;
+  width: 400px;
+  font-weight: bold;
+  font-size: 47px;
+  color: #054155;
+}
+.home-description{
+  text-indent: 45px;
+  width: 300px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #000;
+}
+
+/* ITEMS */
+.main-items{
+  display: flex;
+  justify-content: center;
+}
+
+.itemcard-wrapper{
+  display: flex;
+  justify-content: center;
+  width: 230px;
+}
+
+.item-category-wrapper{
+  position: relative;
+  background-color: red;
+}
+
+/* Cards */
+
+.title-wrapper{
+  font-size: 24px;
+  font-weight: bold;
+}
+.price-wrapper{
+  font-style: unset;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.category-wrapper{
+  margin-bottom: 2px;
+}
+
+.status-wrapper{
+  margin-bottom: 10px;
+}
+
+/* My Account */
+.myaccount-photo-wrapper{
+  width: 120px;
+  height: 100px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.myaccount-photo-wrapper img{
+  width: 100%;
+  height: 100%;
+}
+
+.myaccount-img-wrapper{
+  background-color: transparent;
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.myaccount-img-wrapper img{
+  height: 340px;
+  width: 70%;
+}
+
+.myaccount-content-wrapper{
+  color: #fff;
+  background-image: linear-gradient(to right, #06475d, #07546f, #086281, #097194, #0c7fa7);
+  padding: 30px;
+  width: 500px;
+  max-height: 435px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 150px;
+  box-shadow: 6px 0px 10px 1px #086281;
+}
+
+.myaccount-tag{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-bottom: solid #ffffff;
+}
+
+.myaccount-content-wrapper label{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.button-wrapper{
+  background-color: transparent;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 300px;
+
+}
+
+.myaccount-config{
+  background-color: transparent;
+  min-height: 60px;
+  margin-left: 140px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid #fff 2px;
+}
+
+.myaccount-dp-wraper{
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  margin-bottom: 10px;
+}
+
+.myaccount-dp-wraper img{
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+}
+.myaccount-setting-tag{
+  color: #054155;
+  font-size: 24px;
+  font-weight: 400;
+  margin-left: 140px;
+}
+
+.myaccount-details{
+  max-height: 210px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.myaccount-details label{
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.myaccount-details p{
+  font-size: 14px;
+}

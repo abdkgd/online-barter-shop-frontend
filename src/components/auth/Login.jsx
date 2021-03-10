@@ -1,12 +1,14 @@
 import React, {useState} from 'react'
 import { validateLogin } from "../../app/actions/Validation.jsx";
 import { loggedIn } from "../../app/actions/LoggedActions.jsx";
+import { Alert } from 'react-bootstrap'
 
 import { useDispatch, useSelector } from "react-redux";
 const Login = ({logged, setLogged}) => {
     const dispatch = useDispatch()
     const isValid = useSelector(state => state.validate)
-
+    const [errorLogin, setErrorLogin] = useState(false)
+    
     const [form, setForm] = useState({
         username: '',
         password: '',
@@ -25,11 +27,15 @@ const Login = ({logged, setLogged}) => {
         const res = await dispatch(validateLogin(form));
         console.log(res.data);
         if(res.data !== -1){
+            window.location.href = "/";
             console.log(res.data);
             dispatch(loggedIn(res.data));
             console.log(logged);
             setLogged(!logged);
             console.log(logged);
+        }
+        else{
+            setErrorLogin(!errorLogin);
         }
     };
 
@@ -38,7 +44,7 @@ const Login = ({logged, setLogged}) => {
             <form className="auth-inner-login" onSubmit={handleSubmit}>
                 <div className="loginWrapper">
                     <h3>Log in</h3>
-
+                    {errorLogin && <Alert variant="danger">Incorrect username and password</Alert>}
                     <div className="form-group">
                         <label>Username</label>
                         <input required type="text" id="username" className="form-control" placeholder="Enter username" onChange={handleChange}/>
@@ -56,7 +62,9 @@ const Login = ({logged, setLogged}) => {
                         </div>
                     </div>
 
-                    <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
+                    
+                        <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
+                    
                     <p className="forgot-password text-right">
                         Forgot <a href="#">password?</a>
                     </p>

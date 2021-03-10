@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 const Signup = ({logged, setLogged}) => {
     const dispatch = useDispatch();
     const userData = useSelector(state => state.user) 
-    const loggedInID = useSelector(state => state.logged)
 
     useEffect(() => {
         dispatch(getUsers());
@@ -94,6 +93,7 @@ const Signup = ({logged, setLogged}) => {
         if(!postForm){
             console.log(form);
             const res = await dispatch(addAccount(form));
+            window.location.href = "/";
             console.log(res.data.id);
             window.localStorage.clear();
             dispatch(loggedIn(res.data.id));
