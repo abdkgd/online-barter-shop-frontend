@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-const ProfileModal = (props) => {
+const EditAccountModal = (props) => {
     return (
         <>
             <Modal
@@ -13,16 +13,16 @@ const ProfileModal = (props) => {
                 >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                    Account Profile
+                        Edit Account
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        {props.children}
+                        MY ID: {props.myId}
                     </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="dark">View Items</Button>
+                        <Button variant="success">Save</Button>
                         <Button onClick={props.onHide} variant="danger">Close</Button>
                     </Modal.Footer>
                 </Modal>
@@ -30,4 +30,4 @@ const ProfileModal = (props) => {
     )
 }
 
-export default ProfileModal
+export default EditAccountModal

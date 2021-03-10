@@ -1,18 +1,34 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAccountById } from "../../../app/actions/AccountIdActions";
 import * as FiIcons from 'react-icons/fi'
+import * as AiIcons from 'react-icons/ai'
+import MyItemsModal from '../../layout/MyItemsModal';
+import EditAccountModal from '../../layout/EditAccountModal';
+import { getItems } from "../../../app/actions/ItemActions";
 
 const MyAccount = () => {
 
     const dispatch = useDispatch()
     const profile = useSelector(state => state.accountid)
-
+    const items = useSelector(state => state.item)
+    
+    const [showModalMyItems, setShowModalMyItems] = useState(false)
+    const [showModalEditAccount, setShowModalEditAccount] = useState(false)
     useEffect(() => {
         dispatch(getAccountById(parseInt(window.localStorage.getItem("creds"))))
     }, [])
 
+    const handleMyItems = (id) => {
+        dispatch(getItems())
+        console.log(items.data);
+        setShowModalMyItems(!showModalMyItems);
+    }
+
+    const handleEditAccount = (id) => {
+        setShowModalEditAccount(!showModalEditAccount);
+    }
     return (
         <>
             {
@@ -39,31 +55,41 @@ const MyAccount = () => {
                                     <div className="container myaccount-details">
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <label>First Name:</label>
-                                                    <p>{profile.data.firstname}</p>
+                                                    <label>First Name:</label><br />
+                                                    <label>Last Name:</label><br />
                                                 </div>
                                                 <div className="col-6">
-                                                    <label>Last Name:</label>
+                                                    <p>{profile.data.firstname}</p>
                                                     <p>{profile.data.lastname}</p>
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <label>Username:</label>
-                                                    <p>{profile.data.username}</p>
+                                                    <label>Username:</label><br />
+                                                    <label>Rating:</label><br />
                                                 </div>
                                                 <div className="col-6">
-                                                    <label>Rating:</label>
-                                                    <p>{profile.data.rating}</p>
+                                                    <p>{profile.data.username}</p>
+                                                    <p>
+                                                    {
+                                                        (function (rows, i, len) {
+                                                            while (++i <= len) {
+                                                            rows.push(<AiIcons.AiTwotoneStar key={i} />)
+                                                            }
+                                                            return rows;
+                                                        })
+                                                        ([], 0, profile.data.rating)
+                                                    }
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <label>Phone Number:</label>
-                                                    <p>{profile.data.phoneNumber}</p>
+                                                    <label>Phone Number:</label><br />
+                                                    <label>Email:</label><br />
                                                 </div>
                                                 <div className="col-6">
-                                                    <label>Email:</label>
+                                                    <p>{profile.data.phoneNumber}</p>
                                                     <p>{profile.data.email}</p>
                                                 </div>
                                             </div>
@@ -73,20 +99,25 @@ const MyAccount = () => {
                         </div>
                         <div className="col-6 home-photo">
                             <div className="myaccount-img-wrapper">
-                                <img src="/images/my-account-1.svg" alt=""/>
+                                <img src="/images/my-account-3.svg" alt=""/>
                             </div>
                             <div className="myaccount-setting-tag">
                                 <label><FiIcons.FiSettings /> Settings</label>
                             </div>
                             <div className="myaccount-config">
                                 <div className="button-wrapper">
-                                    <Button variant="dark">View Items</Button>
-                                    <Button variant="success">Edit Account</Button>
+                                    <Button variant="dark" onClick={() => handleMyItems(profile.data.id)}>View Items</Button>
+                                    <Button variant="success"  onClick={() => handleEditAccount(profile.data.id)}>Edit Account</Button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {
+                    items.data &&
+                    <MyItemsModal show={showModalMyItems} setShow={setShowModalMyItems} onHide={() => setShowModalMyItems(false)} myId={profile.data.id} myName={profile.data.firstname} data={items.data}/>
+                }
+                <EditAccountModal show={showModalEditAccount} onHide={() => setShowModalEditAccount(false)} myId={profile.data.id}/>
                 </>
             }
         </>

@@ -7,3 +7,12 @@ export const getItems = () => async(dispatch) => {
     } catch (error) {
     }
 };
+
+export const setItems = (items) => async(dispatch) => {
+    try {
+        const res = await api.setItems(items);
+        dispatch({type: 'ADD_ITEMS', payload: items});
+        return res;
+    } catch (error) {
+    }
+};

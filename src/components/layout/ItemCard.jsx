@@ -5,7 +5,7 @@ import {Button} from 'react-bootstrap'
 const ItemCard = ({data}) => {
     return (
         <>
-            <Card style={{ width: '16rem'}}>
+            <Card style={{ width: '17rem'}}>
                 <Card.Img variant="top" src={data.photo} />
                 <Card.Body>
                     <Card.Title>
@@ -15,7 +15,7 @@ const ItemCard = ({data}) => {
                     </Card.Title>
                         <div className="price-wrapper">
                             <Card.Text>
-                                Price: $ {data.price}
+                                Price: ¥{data.price}
                             </Card.Text>
                         </div>
                         <div className="category-wrapper">

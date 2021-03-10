@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect} from 'react'
 import Search from '../../layout/Search.jsx'
 import ItemCard from '../../layout/ItemCard.jsx'
 import CardDeck from 'react-bootstrap/CardDeck'
@@ -19,7 +19,7 @@ const Items = () => {
             <Search />
             <section className="section-pagetop bg">
                 <div className="container">
-                    <h2 className="title-page">Exchange Now!</h2>
+                    <h2 className="title-page">Let's Trade Now!</h2>
                     <nav>
                         <ol className="breadcrumb text-white">
                             <li className="breadcrumb-item"><a href="/">Home</a></li>

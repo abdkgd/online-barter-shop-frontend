@@ -14,3 +14,6 @@ export const validateLogin = (login) => axios.post(validateloginURL, login)
 
 const itemURL = "http://localhost:7000/api/items"
 export const getItems = () => axios.get(itemURL);
+export const setItems = (items) => axios.post(itemURL, items);
+
+export const deleteItemById = (id) => axios.delete(`http://localhost:7000/api/items/${id}`) 

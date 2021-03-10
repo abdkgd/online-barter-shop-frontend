@@ -1,5 +1,5 @@
 import React, { useState , useEffect } from 'react'
-import blank from '../../assets/images/blank-1.png'
+import blank from '../../assets/images/male-1.svg'
 import { getUsers } from '../../app/actions/UserActions.jsx'
 import { addAccount } from "../../app/actions/AccountActions.jsx";
 import { loggedIn } from "../../app/actions/LoggedActions.jsx";

@@ -1,7 +1,10 @@
 * {
     box-sizing: border-box;
   }
-  
+
+.modal-backdrop {
+    opacity:0.75 !important;
+  }
 body {
     min-height: 100vh;
     display: flex;
@@ -155,6 +158,11 @@ body {
   background-color: #f8f9fa;
 }
 
+.title-page{
+  font-weight: 700;
+  margin-left: 20px;
+}
+
 /* SECTION FOOTER */
 .padding-y {
   background-color: #ffffff;
@@ -285,7 +293,6 @@ body {
   color: #054155;
 }
 .home-description{
-  text-indent: 45px;
   width: 300px;
   margin-bottom: 20px;
   font-size: 16px;
@@ -354,15 +361,17 @@ body {
 }
 
 .myaccount-content-wrapper{
-  color: #fff;
-  background-image: linear-gradient(to right, #06475d, #07546f, #086281, #097194, #0c7fa7);
+  color: #063f52;
+  /* background-image: linear-gradient(to right, #06475d, #07546f, #086281, #097194, #0c7fa7); */
+  background-image: linear-gradient(to right, #377796, #5f809b, #88a0c4, #c9cddf, #cbcfdf);
   padding: 30px;
   width: 500px;
-  max-height: 435px;
+  max-height: 425px;
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 150px;
-  box-shadow: 6px 0px 10px 1px #086281;
+  border: solid #317a92 0.2px;
+  box-shadow: 6px 0px 5px 0px #7997a1;
 }
 
 .myaccount-tag{
@@ -370,12 +379,12 @@ body {
   align-items: center;
   justify-content: space-between;
   font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  padding-bottom: 15px;
+  font-weight: 400;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
   padding-left: 15px;
-  padding-right: 15px;
-  border-bottom: solid #ffffff;
+  padding-right: 25px;
+  border-bottom: solid #076585;
 }
 
 .myaccount-content-wrapper label{
@@ -395,7 +404,7 @@ body {
 .myaccount-config{
   background-color: transparent;
   min-height: 60px;
-  margin-left: 140px;
+  margin-left: 120px;
   width: 300px;
   display: flex;
   align-items: center;
@@ -419,20 +428,47 @@ body {
   color: #054155;
   font-size: 24px;
   font-weight: 400;
-  margin-left: 140px;
+  margin-left: 120px;
 }
 
 .myaccount-details{
-  max-height: 210px;
+  max-height: 220px;
   padding: 10px;
   margin-bottom: 10px;
 }
 
 .myaccount-details label{
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .myaccount-details p{
   font-size: 14px;
+}
+
+/* Add Item */
+.add-item-modal-image-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: solid #063f52 1px;
+}
+
+.add-item-image-wrapper{
+  height: 125px;
+  width: 125px;
+  margin-bottom: 10px;
+  margin-left: 47px;
+}
+
+.add-item-image-wrapper img{
+  width: 100%;
+  height: 100%;
+}
+
+.add-item-input-wrapper{
+  display: flex;
+  justify-content: center;
+  width: 220px;
 }

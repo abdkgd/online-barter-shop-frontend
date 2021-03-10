@@ -28,7 +28,7 @@ const SectionNav = ({name}) => {
                         <div className="nav-item">
                             <div className="nav-link nav-welcome">Welcome {name}!</div>
                         </div>
-                        <a href="/" className="nav-welcome" onClick={() => window.localStorage.clear()}><RiIcons.RiLoginBoxLine /></a>
+                        <a href="/" className="nav-welcome" onClick={() => window.localStorage.clear()}><RiIcons.RiLoginBoxLine /> Log out</a>
                 </div>
             </nav>
         </div>

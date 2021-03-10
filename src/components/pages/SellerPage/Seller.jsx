@@ -6,7 +6,7 @@ import Pagination from '../../layout/Pagination.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAccount } from '../../../app/actions/AccountActions'
 import { getAccountById } from "../../../app/actions/AccountIdActions";
-
+import * as AiIcons from 'react-icons/ai'
 import * as MdIcons from 'react-icons/md'
 import ProfileModal from '../../layout/ProfileModal'
 
@@ -60,7 +60,17 @@ const Seller = () => {
                                         <td>{user.lastname}</td>
                                         <td>{user.username}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.rating}</td>
+                                        <td>
+                                        {
+                                            (function (rows, i, len) {
+                                                while (++i <= len) {
+                                                rows.push(<AiIcons.AiTwotoneStar key={i}/>)
+                                            }
+                                                return rows;
+                                            })
+                                            ([], 0, user.rating)
+                                        }
+                                        </td>
                                         <td>{user.phoneNumber}</td>
                                         <td><Button variant="primary" onClick={() => handleViewProfile(user.id)}><MdIcons.MdViewList /> View Profile</Button></td>
                                     </>
@@ -90,30 +100,40 @@ const Seller = () => {
                                     <div className="row">
                                         <div className="col-6">
                                             <label>Username:</label>
-                                            <p>{userid.data.username}</p>
+                                            <p>Rating:</p>
                                         </div>
                                         <div className="col-6">
-                                            <label>Rating:</label>
-                                            <p>{userid.data.rating}</p>
+                                            <label>{userid.data.username}</label>
+                                            <p>
+                                                {
+                                                    (function (rows, i, len) {
+                                                        while (++i <= len) {
+                                                        rows.push(<AiIcons.AiTwotoneStar key={i}/>)
+                                                        }
+                                                        return rows;
+                                                    })
+                                                    ([], 0, userid.data.rating)
+                                                }
+                                            </p>
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-6">
                                             <label>First Name:</label>
-                                            <p>{userid.data.firstname}</p>
+                                            <p>Last Name:</p>
                                         </div>
                                         <div className="col-6">
-                                            <label>Last Name:</label>
+                                            <label>{userid.data.firstname}</label>
                                             <p>{userid.data.lastname}</p>
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-6">
                                             <label>Phone Number:</label>
-                                            <p>{userid.data.phoneNumber}</p>
+                                            <p>Email:</p>
                                         </div>
                                         <div className="col-6">
-                                            <label>Email:</label>
+                                            <label>{userid.data.phoneNumber}</label>
                                             <p>{userid.data.email}</p>
                                         </div>
                                     </div>
