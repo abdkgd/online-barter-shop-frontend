@@ -6,6 +6,9 @@ import validateReducers from './reducers/ValidateReducers'
 import accountidReducer from './reducers/AccountIdReducers'
 import itemReducer from './reducers/ItemReducers'
 import itemIdReducer from './reducers/ItemIdReducer'
+import cartReducer from './reducers/CartReducer'
+import cartIdReducer from './reducers/CartIdReducer'
+
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -14,6 +17,8 @@ const rootReducer = combineReducers({
     itemid: itemIdReducer,
     accountid: accountidReducer,
     logged: loggedReducers,
+    cart: cartReducer,
+    cartId: cartIdReducer,
     validate: validateReducers
 })
 

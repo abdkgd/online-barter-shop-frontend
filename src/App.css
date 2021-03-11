@@ -439,7 +439,7 @@ body {
 
 .myaccount-details label{
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .myaccount-details p{
@@ -462,7 +462,26 @@ body {
   margin-left: 47px;
 }
 
+.add-request-image-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 125px;
+  width: 125px;
+  margin-bottom: 10px;
+}
+
+.add-request-image-wrapper label{
+  font-size: 18px;
+  font-weight: 400;
+}
+
 .add-item-image-wrapper img{
+  width: 100%;
+  height: 100%;
+}
+
+.add-request-image-wrapper img{
   width: 100%;
   height: 100%;
 }
@@ -471,4 +490,10 @@ body {
   display: flex;
   justify-content: center;
   width: 220px;
+}
+
+.cart-btn-wrapper{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

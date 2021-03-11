@@ -1,11 +1,11 @@
 const reducer = (state = [], action) => {
     switch (action.type) {
-        case 'GET_ACCOUNT':
+        case 'GET_CART':
             return action.payload
-        case 'ADD_ACCOUNT':
+        case 'ADD_CART':
             return [...state, action.payload]
-        case 'UPDATE_ACCOUNT':
-                return action.payload
+        case 'UPDATE_CART':
+            return action.payload
         default:
             return state
     }

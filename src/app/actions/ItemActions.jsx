@@ -16,3 +16,12 @@ export const setItems = (items) => async(dispatch) => {
     } catch (error) {
     }
 };
+
+export const updateItems = (items) => async(dispatch) => {
+    try {
+        const res = await api.updateItems(items);
+        dispatch({type: 'UPDATE_ITEMS', payload: items});
+        return res;
+    } catch (error) {
+    }
+};

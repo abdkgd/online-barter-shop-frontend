@@ -2,23 +2,34 @@ import React, {useState} from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import Table from 'react-bootstrap/Table'
 import AddItemModal from './AddItemModal'
-import { useDispatch } from 'react-redux'
-import { deleteItemById } from "../../app/actions/ItemById";
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteItemById, getItemById } from "../../app/actions/ItemById";
+import EditItemModal from './EditItemModal'
 
 const MyItemsModal = (props) => {
 
     const dispatch = useDispatch()
+    const item = useSelector(state => state.itemid)
     const [showAddItemModal, setShowAddItemModal] = useState(false)
+    const [showEditItemModal, setShowEditItemModal] = useState(false)
 
     const handleAddItem = () => {
         props.setShow(false)
         setShowAddItemModal(!showAddItemModal)
     }
 
+    const handleEditItem = (id) => {
+        props.setShow(false)
+        setShowEditItemModal(!showEditItemModal)
+        console.log(id);
+        const res = dispatch(getItemById(id));
+        console.log(item.data)
+    }
+
     const handleDeleteItem = (id) => {
+        props.setShow(false)
         console.log(id);
         dispatch(deleteItemById(id))
-        window.location.href = "/myaccount";
     }
     return (
         <>
@@ -64,7 +75,7 @@ const MyItemsModal = (props) => {
                                             <td>{item.location}</td>
                                             <td>{item.publishDate}</td>
                                             <td>
-                                                <Button variant="success" className="mr-2">Edit Item</Button>
+                                                <Button variant="success" onClick={() => handleEditItem(item.id)} className="mr-2">Edit Item</Button>
                                                 <Button variant="danger" onClick={() => handleDeleteItem(item.id)}>Delete Item</Button>
                                             </td>
                                         </tr>
@@ -80,6 +91,10 @@ const MyItemsModal = (props) => {
                     </Modal.Footer>
                 </Modal>
                 <AddItemModal show={showAddItemModal} onHide={() => setShowAddItemModal(false)}/>
+                {
+                    item.data &&
+                    <EditItemModal show={showEditItemModal} onHide={() => setShowEditItemModal(false)} data={item.data}/>
+                }
         </>
     )
 }

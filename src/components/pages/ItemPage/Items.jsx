@@ -23,7 +23,7 @@ const Items = () => {
                     <nav>
                         <ol className="breadcrumb text-white">
                             <li className="breadcrumb-item"><a href="/">Home</a></li>
-                            <li className="breadcrumb-item active" aria-current="page">Great articles</li>
+                            <li className="breadcrumb-item active" aria-current="page">Shop Items</li>
                         </ol>  
                     </nav>
                     <div className="main-items">

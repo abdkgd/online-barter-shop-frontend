@@ -8,6 +8,7 @@ import MyAccount from './MyAccountPage/MyAccount.jsx'
 import Seller from './SellerPage/Seller.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAccountById } from "../../app/actions/AccountIdActions";
+import Cart from './CartPage/Cart.jsx'
 
 
 const Pages = () => {
@@ -30,6 +31,7 @@ const Pages = () => {
             <Route path="/browse/sellers" render={() => <Seller />} />
             <Route path="/browse/items" render={() => <Items />} />
             <Route path="/myaccount" render={() => <MyAccount />} />
+            <Route path="/cart" render={() => <Cart />} />
         </Switch>
         <SectionFooter />
         </>

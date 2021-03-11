@@ -17,3 +17,12 @@ export const getAccount = () => async(dispatch) => {
     }
 };
 
+export const updateAccount = (account) => async(dispatch) => {
+    try {
+        const res = await api.updateAccount(account);
+        dispatch({type: 'UPDATE_ACCOUNT', payload: account});
+        return res;
+    } catch (error) {
+    }
+};
+
