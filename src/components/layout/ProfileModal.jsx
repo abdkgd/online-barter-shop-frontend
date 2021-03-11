@@ -23,6 +23,7 @@ const ProfileModal = (props) => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="dark">View Items</Button>
+                        <Button variant="success">Send Message</Button>
                         <Button onClick={props.onHide} variant="danger">Close</Button>
                     </Modal.Footer>
                 </Modal>

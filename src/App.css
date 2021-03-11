@@ -249,10 +249,46 @@ body {
   align-items: center;
 }
 
+.about-description{
+  width: 300px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #000;
+}
+
+.aboutWrapper{
+  min-height: 67vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .home-photo{
   background-color: transparent;
   width: 100%;
   min-height: 100px;
+}
+
+.about-photo{
+  background-color: transparent;
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-image-wrapper{
+  width: 150px;
+  height: 150px;
+  border-radius: 100px;
+}
+
+.about-image-wrapper img{
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
 }
 
 .home-img-wrapper{
@@ -260,7 +296,18 @@ body {
   margin-left: 35px;
 }
 
+.about-img-wrapper{
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .home-img-wrapper img{
+  height: 340px;
+  width: 70%;
+}
+
+.about-img-wrapper img{
   height: 340px;
   width: 70%;
 }
@@ -270,10 +317,20 @@ body {
   min-height: 100px;
 }
 
+.about-content{
+  width: 100%;
+  min-height: 100px;
+}
+
 .home-content-wrapper {
   padding-right: 60px;
   width: 500px;
   padding-left: 250px;
+}
+
+.about-content-wrapper {
+  padding-right: 60px;
+  padding-left: 160px;
 }
 
 .home-topline{
@@ -302,7 +359,7 @@ body {
 /* ITEMS */
 .main-items{
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .itemcard-wrapper{
@@ -311,9 +368,12 @@ body {
   width: 230px;
 }
 
+.items-category{
+  position: relative;
+}
+
 .item-category-wrapper{
   position: relative;
-  background-color: red;
 }
 
 /* Cards */

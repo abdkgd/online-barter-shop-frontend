@@ -9,6 +9,7 @@ import Login from './components/auth/Login.jsx'
 import SignUp from './components/auth/Signup.jsx'
 import { useState, useEffect } from "react";
 import Pages from './components/pages/Pages.jsx'
+import About from './components/auth/About';
 
 function App() {
   const [logged, setLogged] = useState(false);
@@ -41,6 +42,7 @@ function App() {
               <Route exact path='/' render={() => <Login logged={logged} setLogged={setLogged}/>} />
               <Route path="/signin" render={() => <Login logged={logged} setLogged={setLogged}/>} />
               <Route path="/signup" render={() => <SignUp logged={logged} setLogged={setLogged}/>} />
+              <Route path="/about" render={() => <About />} />
             </Switch>
           </div>
           }

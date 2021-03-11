@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 import Search from '../../layout/Search.jsx'
 import ItemCard from '../../layout/ItemCard.jsx'
 import CardDeck from 'react-bootstrap/CardDeck'
@@ -9,6 +9,8 @@ import { getItems } from "../../../app/actions/ItemActions";
 const Items = () => {
     const dispatch = useDispatch()
     const items = useSelector(state => state.item)
+
+    const [category, setCategory] = useState("All")
 
     useEffect(() => {
         dispatch(getItems())
@@ -28,20 +30,33 @@ const Items = () => {
                     </nav>
                     <div className="main-items">
                         <div className="items-category mr-3">
-                            <ItemCategory />
+                            <ItemCategory setCategory={setCategory}/>
                         </div>
                         <div>
                             <CardDeck>
                                     {
                                         items.data &&
-                                        items.data.map((item, index)=>
-                                        <div key={index}>
-                                            {
-                                                item.ownerId !== parseInt(window.localStorage.getItem("creds")) &&
-                                                <ItemCard data={item}/>
-                                            }
-                                        </div>
+                                        (
+                                            category === "All" ?
+                                            items.data.map((item, index)=>
+                                            <div key={index}>
+                                                {
+                                                    item.ownerId !== parseInt(window.localStorage.getItem("creds")) &&
+                                                    <ItemCard data={item}/>
+                                                }
+                                            </div>
+                                            )
+                                            :
+                                            items.data.filter(x => x.category === category).map((item, index)=>
+                                            <div key={index}>
+                                                {
+                                                    item.ownerId !== parseInt(window.localStorage.getItem("creds")) &&
+                                                    <ItemCard data={item}/>
+                                                }
+                                            </div>
+                                            )
                                         )
+                                        
                                     }
                             </CardDeck>
                         </div>
