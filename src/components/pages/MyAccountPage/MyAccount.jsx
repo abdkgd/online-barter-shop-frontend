@@ -106,7 +106,7 @@ const MyAccount = () => {
                             </div>
                             <div className="myaccount-config">
                                 <div className="button-wrapper">
-                                    <Button variant="dark" onClick={() => handleMyItems(profile.data.id)}>View Items</Button>
+                                    <Button variant="primary" onClick={() => handleMyItems(profile.data.id)}>Manage Items</Button>
                                     <Button variant="success"  onClick={() => handleEditAccount(profile.data.id)}>Edit Account</Button>
                                 </div>
                             </div>
@@ -117,7 +117,10 @@ const MyAccount = () => {
                     items.data &&
                     <MyItemsModal show={showModalMyItems} setShow={setShowModalMyItems} onHide={() => setShowModalMyItems(false)} myId={profile.data.id} myName={profile.data.firstname} data={items.data}/>
                 }
-                <EditAccountModal show={showModalEditAccount} onHide={() => setShowModalEditAccount(false)} myId={profile.data.id}/>
+                {
+                    profile.data &&
+                    <EditAccountModal show={showModalEditAccount} onHide={() => setShowModalEditAccount(false)} myAccount={profile.data}/>
+                }
                 </>
             }
         </>

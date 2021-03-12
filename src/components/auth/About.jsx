@@ -16,11 +16,13 @@ const About = () => {
                         <div className="home-topline about-image-wrapper">
                             <img src="images/jeff-1.jpg" alt="" srcset=""/>
                         </div>
-                        <h1 className="home-headline">
+                        <h1 className="about-headline">
                         こんにちは！
                         </h1>
                         <p className="about-description">
-                        Hi I'm Jeff!<br/> I'm a BS in Computer Engineering Graduate at Pamantasan ng Cabuyao.</p>
+                        Hi I'm Jeff!<br/> I'm a BS Computer Engineering Graduate at Pamantasan ng Cabuyao.<br/>
+                        Working as a Junior Programmer Trainee At Fujitsu Engineering Technologies Philippines.
+                        </p>
                     </div>
                 </div>
             </div>

@@ -75,7 +75,7 @@ const EditItemModal = (props) => {
                     <div className="row mb-2">
                                 <div className="col-12">
                                     <div className="add-item-modal-image-container">
-                                        <label>Update Profile Image</label>
+                                        <label>Update Item Image</label>
                                         <div className="form-group">
                                             <div className="add-item-image-wrapper">
                                                 <img src={itemImg} alt="" className="img border border-dark rounded-circle" />

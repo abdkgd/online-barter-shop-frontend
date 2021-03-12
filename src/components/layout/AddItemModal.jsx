@@ -120,14 +120,12 @@ const AddItemModal = (props) => {
                                     <label>Status:</label>
                                     {/* <input required type="text" className="form-control" placeholder="Enter status" id="status" onChange={handleChange}/> */}
                                     <select className="form-control" onChange={handleChange} id="status">
-                                        <option defaultValue>Select Status</option>
                                         <option value="Available">Available</option>
                                     </select>
                                 </div>
                                 <div className="col-6">
                                     <label>Tradeable:</label>
                                     <select className="form-control" onChange={handleChange} id="isTradeable">
-                                        <option defaultValue>Select Tradeable</option>
                                         <option value="true">True</option>
                                         <option value="false">False</option>
                                     </select>

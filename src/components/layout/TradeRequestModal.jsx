@@ -48,6 +48,7 @@ const TradeRequestModal = (props) => {
         }
         else{
             console.log(res);
+            window.location.href = "/cart"
             dispatch(updateCart({
                 ...uCart,
                 acceptTrade: "Declined"
