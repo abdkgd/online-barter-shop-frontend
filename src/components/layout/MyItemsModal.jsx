@@ -28,6 +28,7 @@ const MyItemsModal = (props) => {
 
     const handleDeleteItem = (id) => {
         props.setShow(false)
+        window.location.href = "/myaccount";
         console.log(id);
         dispatch(deleteItemById(id))
     }

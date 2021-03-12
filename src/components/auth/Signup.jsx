@@ -144,12 +144,12 @@ const Signup = ({logged, setLogged}) => {
                             <div className="col">
                                 <div className="form-group">
                                     <label>First name</label>
-                                    <input required type="text" className="form-control" placeholder="First name" onChange={handleChange} id="firstname"/>
+                                    <input required type="text" className="form-control" placeholder="Enter first name" onChange={handleChange} id="firstname"/>
                                 </div>
 
                                 <div className="form-group">
                                     <label>Last name</label>
-                                    <input required type="text" className="form-control" placeholder="Last name" onChange={handleChange} id="lastname"/>
+                                    <input required type="text" className="form-control" placeholder="Enter last name" onChange={handleChange} id="lastname"/>
                                 </div>
                                 <div className="form-group">
                                     <label>Phone Number</label>

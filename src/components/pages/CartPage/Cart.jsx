@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAccount } from '../../../app/actions/AccountActions'
 import { getItems } from '../../../app/actions/ItemActions'
 import { getCart } from '../../../app/actions/CartActions'
-import { Alert, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import TradeRequestModal from '../../layout/TradeRequestModal';
+import { deleteCartById } from "../../../app/actions/CartIdActions";
 
 const Cart = () => {
 
@@ -29,6 +30,11 @@ const Cart = () => {
         setShoTradeRequestModal(!shoTradeRequestModal)
     }
 
+    const handleCancel = (id) => {
+        window.location.href = "/cart"
+        console.log(id)
+        dispatch(deleteCartById(id))
+    }
     return (
         <div className="main-page">
             <Search />
@@ -105,7 +111,7 @@ const Cart = () => {
                                                     {cart.transactionDate}
                                                 </td>
                                                 <td>
-                                                    <Button variant="danger">Cancel</Button>
+                                                    <Button variant="danger" onClick={() => handleCancel(cart.id)}>Cancel</Button>
                                                 </td>
                                             </tr>
                                         )
