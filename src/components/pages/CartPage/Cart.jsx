@@ -63,6 +63,7 @@ const Cart = () => {
                                         <th>Price</th>
                                         <th>Trade Status</th>
                                         <th>Trade Date</th>
+                                        <th>Transaction</th>
                                         <th>Request</th>
                                     </tr>
                                 </thead>
@@ -111,7 +112,20 @@ const Cart = () => {
                                                     {cart.transactionDate}
                                                 </td>
                                                 <td>
-                                                    <Button variant="danger" onClick={() => handleCancel(cart.id)}>Cancel</Button>
+                                                    <Button variant="primary">Messages</Button>
+                                                </td>
+                                                <td>
+                                                    {
+                                                            (
+                                                            cart.acceptTrade === "Accepted" ? 
+                                                                <Button variant="success" disabled>Trade Accepted</Button>
+                                                            :
+                                                                cart.acceptTrade === "Declined" ? 
+                                                                    <Button variant="warning" disabled>Trade Declined</Button>
+                                                                    :
+                                                                    <Button variant="danger" onClick={() => handleCancel(cart.id)}>Cancel</Button>
+                                                            )
+                                                    }
                                                 </td>
                                             </tr>
                                         )
@@ -119,7 +133,7 @@ const Cart = () => {
                                 </tbody>
                                 </Table>
                                 <div className="cart-btn-wrapper">
-                                    <Button variant="warning" className="mt-2" onClick={() => handleTradeRequest()}>Trade Requests</Button>
+                                    <Button variant="primary" className="mt-2" onClick={() => handleTradeRequest()}>Trade Requests</Button>
                                 </div>
                                 <TradeRequestModal show={shoTradeRequestModal} onHide={() => setShoTradeRequestModal(false)} cart={cart} accounts={accounts} items={items}/>
                                 </>

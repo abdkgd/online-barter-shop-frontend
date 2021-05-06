@@ -70,8 +70,9 @@ const Signup = ({logged, setLogged}) => {
         e.preventDefault();
         let flag = false;
         for (let index = 0; index < userData.length; index++) {
-            if(userData[index].username === form.username){
+            if(userData[index].usernames === form.username){
                 flag = true;
+                break;
             }
         }
         let postForm = false;
@@ -98,6 +99,7 @@ const Signup = ({logged, setLogged}) => {
             window.localStorage.clear();
             dispatch(loggedIn(res.data.id));
             setLogged(!logged);
+            console.log("SUCCESSFULLY CREATED!");
         }
     };
     return (
@@ -158,7 +160,7 @@ const Signup = ({logged, setLogged}) => {
                                 <div className="btnWrapper">
                                     <button type="submit" className="btn btn-dark btn-lg btn-block">Register</button>
                                     <p className="forgot-password text-right">
-                                        Already registered <a href="#">log in?</a>
+                                        Already registered <a href="/">log in?</a>
                                     </p>
                                 </div>
                             </div>

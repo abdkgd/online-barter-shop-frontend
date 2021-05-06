@@ -89,6 +89,7 @@ const TradeRequestModal = (props) => {
                                         <th>Price</th>
                                         <th>Trade Status</th>
                                         <th>Transaction</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -141,12 +142,12 @@ const TradeRequestModal = (props) => {
                                                         </>
                                                         :
                                                         <>
-                                                            <Button disabled variant="success">Accept</Button>
-                                                            <Button disabled variant="danger" className="ml-2">Decline</Button>
+                                                            <Button variant="primary" className="ml-2">Message</Button>
+                                                            <Button variant="secondary" className="ml-2" onClick={() => handleRemove(cart.id)}>Remove</Button>
                                                         </>
                                                     }
-                                                    <Button variant="secondary" className="ml-2" onClick={() => handleRemove(cart.id)}>Remove</Button>
                                                 </td>
+                                                
                                             </tr>
                                         )
                                     }
