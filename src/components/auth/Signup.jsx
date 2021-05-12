@@ -99,13 +99,14 @@ const Signup = ({logged, setLogged}) => {
             window.localStorage.clear();
             dispatch(loggedIn(res.data.id));
             setLogged(!logged);
+            window.localStorage.setItem("rememberme", JSON.stringify(false))
             console.log("SUCCESSFULLY CREATED!");
         }
     };
     return (
         <div className="auth-outer">
             <form className="auth-inner" onSubmit={handleSubmit}>
-                {showAlert1 && <Alert variant="danger">Password do not match!!</Alert>}
+                {showAlert1 && <Alert variant="danger">Password does not match!!</Alert>}
                 {showAlert2 && <Alert variant="danger">Username already exist!!</Alert>}
                 <div className="container">
                     <h3>Register</h3>

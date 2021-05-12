@@ -3,22 +3,74 @@ import Search from '../../layout/Search.jsx'
 import ItemCard from '../../layout/ItemCard.jsx'
 import CardDeck from 'react-bootstrap/CardDeck'
 import ItemCategory from '../../layout/ItemCategory.jsx'
+import * as BsIcons from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import { getItems } from "../../../app/actions/ItemActions";
+import _ from "lodash";
 
+const pageSize = 3;
 const Items = () => {
     const dispatch = useDispatch()
     const items = useSelector(state => state.item)
 
     const [category, setCategory] = useState("All")
+    const [paginatedItems, setPaginatedItems] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        dispatch(getItems())
+        dispatch(getItems());
     }, [])
+
+    useEffect(() => {
+        setPaginatedItems(_(items.data).slice(0).take(pageSize).value());
+    }, [items])
+
+
+    const pageCount = items.data ? Math.ceil(items.data.length / pageSize) : 0;
+    const pages = _.range(1,pageCount + 1);
+
+    const handlePagination = (pageNo) => {
+        setCurrentPage(pageNo);
+        const startIndex = (pageNo - 1) * pageSize;
+        const paginatedPost = _(items.data).slice(startIndex).take(pageSize).value();
+        setPaginatedItems(paginatedPost);
+        window.scrollTo(0, 0)
+    }
+
+    const handleNext = () => {
+        if(pages.length !== currentPage){
+            const startIndex = (currentPage) * pageSize;
+            const paginatedPost = _(items.data).slice(startIndex).take(pageSize).value();
+            setPaginatedItems(paginatedPost);
+            setCurrentPage(currentPage + 1);
+            window.scrollTo(0, 0)
+        }
+    }
+    const handlePrevious = () => {
+        if(currentPage !== 1){
+            const startIndex = (currentPage - 2) * pageSize;
+            const paginatedPost = _(items.data).slice(startIndex ).take(pageSize).value();
+            setPaginatedItems(paginatedPost);
+            setCurrentPage(currentPage - 1);
+            window.scrollTo(0, 0)
+        }
+    }
+    
 
     return (
         <div className="main-page">
-            <Search />
+            <div className="container SearchWrapper col-lg-6 col-sm-12">
+                <form action="#" className="search">
+                    <div className="input-group w-100">
+                            <input type="text" className="form-control" placeholder="Search" />
+                            <div className="input-group-append">
+                                <button className="btn btn-dark" type="submit">
+                                <BsIcons.BsSearch />
+                                </button>
+                            </div>
+                    </div>
+                </form>
+            </div>
             <section className="section-pagetop bg">
                 <div className="container">
                     <h2 className="title-page">Let's Trade Now!</h2>
@@ -35,13 +87,19 @@ const Items = () => {
                         <div>
                             <CardDeck>
                                     {
-                                        items.data &&
+                                        items.data && paginatedItems &&
                                         (
                                             category === "All" ?
-                                            items.data.map((item, index)=>
+                                            paginatedItems.map((item, index)=>
                                             <div key={index}>
                                                 {
-                                                    item.ownerId !== parseInt(window.localStorage.getItem("creds")) &&
+                                                    item.ownerId !== parseInt(
+                                                        window.localStorage.getItem("creds")
+                                                        ?
+                                                        window.localStorage.getItem("creds")
+                                                        :
+                                                        window.sessionStorage.getItem("creds")
+                                                    ) &&
                                                     <ItemCard data={item}/>
                                                 }
                                             </div>
@@ -50,7 +108,12 @@ const Items = () => {
                                             items.data.filter(x => x.category === category).map((item, index)=>
                                             <div key={index}>
                                                 {
-                                                    item.ownerId !== parseInt(window.localStorage.getItem("creds")) &&
+                                                    item.ownerId !== parseInt(
+                                                    window.localStorage.getItem("creds")
+                                                    ?
+                                                    window.localStorage.getItem("creds")
+                                                    :
+                                                    window.sessionStorage.getItem("creds")) &&
                                                     <ItemCard data={item}/>
                                                 }
                                             </div>
@@ -62,6 +125,23 @@ const Items = () => {
                         </div>
                     </div>
                 </div>
+                            <div className="paginationWrapper mt-5 mr-5">
+                                <div>
+                                    <nav aria-label="Page navigation example">
+                                        <ul className="pagination">
+                                            <li className="page-item cursor-pointer"><p className="page-link" onClick = {() => handlePrevious()}>Previous</p></li>
+                                            {
+                                                pages.map((page, index) => (
+                                                    <li key={index} className= {page === currentPage ? "page-item active" : "page-item"}>
+                                                        <p className="page-link cursor-pointer" onClick = {() => handlePagination(page)}>{page}</p>
+                                                    </li>
+                                                ))
+                                            }
+                                            <li className="page-item cursor-pointer"><p className="page-link" onClick = {() => handleNext()}>Next</p></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
             </section>
         </div>
     )

@@ -17,9 +17,15 @@ function App() {
 
   useEffect(() => {
     const cachedCred = JSON.parse(window.localStorage.getItem("creds"));
+    const tempCachedCred = JSON.parse(window.sessionStorage.getItem("creds"));
     if(cachedCred !== null){
       setLogged(true);
       console.log(cachedCred)
+      console.log("FOUND CRED")
+    }
+    else if(tempCachedCred !== null){
+      setLogged(true);
+      console.log(tempCachedCred)
       console.log("FOUND CRED")
     }
     else{
@@ -27,6 +33,14 @@ function App() {
       console.log("NOT FOUND CRED")
     }
   }, [])
+
+  // window.onbeforeunload = function() {
+  //   // const rememberme = JSON.parse(window.localStorage.getItem("rememberme"));
+  //   // if(!rememberme){
+  //   //   localStorage.clear();
+  //   // }
+  // }
+
 
   return (
     <Provider store={store}>

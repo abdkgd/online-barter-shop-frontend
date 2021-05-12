@@ -9,6 +9,7 @@ import Seller from './SellerPage/Seller.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAccountById } from "../../app/actions/AccountIdActions";
 import Cart from './CartPage/Cart.jsx'
+import Inbox from './InboxPage/Inbox.jsx'
 
 
 const Pages = () => {
@@ -17,7 +18,12 @@ const Pages = () => {
     const profile = useSelector(state => state.accountid)
 
     useEffect(() => {
-        dispatch(getAccountById(parseInt(window.localStorage.getItem("creds"))))
+        if(parseInt(window.localStorage.getItem("creds"))){
+            dispatch(getAccountById(parseInt(window.localStorage.getItem("creds"))))
+        }
+        else{
+            dispatch(getAccountById(parseInt(window.sessionStorage.getItem("creds"))))
+        }
     }, [])
 
     return (
@@ -30,6 +36,7 @@ const Pages = () => {
             <Route exact path="/" render={() => <Home />} />
             <Route path="/browse/sellers" render={() => <Seller />} />
             <Route path="/browse/items" render={() => <Items />} />
+            <Route path="/browse/inbox" render={() => <Inbox />} />
             <Route path="/myaccount" render={() => <MyAccount />} />
             <Route path="/cart" render={() => <Cart />} />
         </Switch>

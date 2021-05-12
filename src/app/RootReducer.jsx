@@ -8,7 +8,7 @@ import itemReducer from './reducers/ItemReducers'
 import itemIdReducer from './reducers/ItemIdReducer'
 import cartReducer from './reducers/CartReducer'
 import cartIdReducer from './reducers/CartIdReducer'
-
+import messageReducer from './reducers/MessageReducer'
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
     logged: loggedReducers,
     cart: cartReducer,
     cartId: cartIdReducer,
-    validate: validateReducers
+    validate: validateReducers,
+    message: messageReducer
 })
 
 export default rootReducer

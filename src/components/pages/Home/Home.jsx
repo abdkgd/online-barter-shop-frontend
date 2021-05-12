@@ -1,8 +1,17 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { useDispatch } from 'react-redux'
 import {Button} from 'react-bootstrap'
 import { Link } from "react-router-dom";
+import { getAccount } from '../../../app/actions/AccountActions'
+import { getItems } from "../../../app/actions/ItemActions";
 
 const Home = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAccount());
+        dispatch(getItems());
+    }, [])
+
     return (
         <div className="main-page">
             <div className="row homeWrapper">

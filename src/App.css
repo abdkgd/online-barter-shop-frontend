@@ -2,6 +2,10 @@
     box-sizing: border-box;
   }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .modal-backdrop {
     opacity:0.75 !important;
   }
@@ -213,8 +217,8 @@ body {
 
 /* Image Wrapper */
 .profilePhotoWrapper {
-  width: 110px;
-  height: 110px;
+  width: 70px;
+  height: 70px;
 }
 
 .profilePhotoWrapper .profilePhoto{
@@ -571,4 +575,56 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+
+.inbox-content{
+  /* background-color: gray; */
+  display: flex;
+  width: 100%;
+}
+.inbox-wrapper-options{
+  /* background-color: gray; */
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  width: 300px;
+}
+
+.inbox-wrapper-options .breadcrumb .button-content{
+  width: 100%;
+}
+
+.inbox-wrapper-options button{
+  margin-bottom: 10px;
+}
+.inbox-wrapper-messages{
+  /* background-color: red; */
+  width: 100%;
+  margin: 10px;
+  margin-left: 10px;
+}
+
+.button-content{
+  text-align: center !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+.button-content .icons-margin{
+  margin-right: 15px;
+}
+
+.message-content{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.message-content-details{
+
+}
+.message-content-time{
+
 }

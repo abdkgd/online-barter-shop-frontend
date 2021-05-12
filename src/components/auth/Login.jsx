@@ -8,7 +8,9 @@ const Login = ({logged, setLogged}) => {
     const dispatch = useDispatch()
     const isValid = useSelector(state => state.validate)
     const [errorLogin, setErrorLogin] = useState(false)
-    
+    const [rememberme, setRememberme] = useState(false)
+
+
     const [form, setForm] = useState({
         username: '',
         password: '',
@@ -21,13 +23,20 @@ const Login = ({logged, setLogged}) => {
         })
     };
 
+    const handleChangeRM = (e) => {
+        setRememberme(e.target.checked)
+    };
+    
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         console.log(form);
+        console.log(rememberme)
         const res = await dispatch(validateLogin(form));
         console.log(res.data);
         if(res.data !== -1){
             window.location.href = "/";
+            window.localStorage.setItem("rememberme", JSON.stringify(rememberme))
             console.log(res.data);
             dispatch(loggedIn(res.data));
             console.log(logged);
@@ -57,17 +66,11 @@ const Login = ({logged, setLogged}) => {
 
                     <div className="form-group">
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                            <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                            <input type="checkbox" className="custom-control-input" id="rememberme" onChange={handleChangeRM}/>
+                            <label className="custom-control-label" htmlFor="rememberme">Remember me</label>
                         </div>
                     </div>
-
-                    
-                        <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
-                    
-                    <p className="forgot-password text-right">
-                        Forgot <a href="#">password?</a>
-                    </p>
+                    <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
                 </div>
             </form> 
         </div>

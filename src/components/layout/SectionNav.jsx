@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import * as RiIcons from 'react-icons/ri'
 const SectionNav = ({name}) => {
 
+    const handleLogOut = () => {
+        window.localStorage.clear()
+        window.sessionStorage.clear()
+    }
+    
     return (
         <>
         <div>
@@ -18,17 +23,20 @@ const SectionNav = ({name}) => {
                                 <Link className="nav-link" to={"/browse/sellers"}>View Sellers</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to={"/myaccount"}>My Account</Link>
+                                <Link className="nav-link" to={"/cart"}>Cart</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to={"/cart"}>My Cart</Link>
+                                <Link className="nav-link" to={"/browse/inbox"}>Inbox</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to={"/myaccount"}>Account</Link>
                             </li>
                         </ul>
                     </div>
                         <div className="nav-item">
                             <div className="nav-link nav-welcome">Welcome {name}!</div>
                         </div>
-                        <a href="/" className="nav-welcome" onClick={() => window.localStorage.clear()}><RiIcons.RiLoginBoxLine /> Log out</a>
+                        <a href="/" className="nav-welcome" onClick={() => handleLogOut()}><RiIcons.RiLoginBoxLine /> Log out</a>
                 </div>
             </nav>
         </div>

@@ -1,10 +1,14 @@
 import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Badge } from 'react-bootstrap'
 import Table from 'react-bootstrap/Table'
 import { useDispatch } from 'react-redux';
 import { updateCart } from "../../app/actions/CartActions";
 import { updateItems } from "../../app/actions/ItemActions";
 import { deleteCartById } from "../../app/actions/CartIdActions";
+import * as RiIcons from 'react-icons/ri'
+import * as MdIcons from 'react-icons/md'
+import * as AiIcons from 'react-icons/ai'
+import * as BiIcons from 'react-icons/bi'
 
 const TradeRequestModal = (props) => {
 
@@ -84,7 +88,7 @@ const TradeRequestModal = (props) => {
                                         <th>Owner</th>
                                         <th>Image</th>
                                         <th>Price</th>
-                                        <th>Requester</th>
+                                        <th>Trader</th>
                                         <th>Image</th>
                                         <th>Price</th>
                                         <th>Trade Status</th>
@@ -94,7 +98,14 @@ const TradeRequestModal = (props) => {
                                 </thead>
                                 <tbody>
                                     {
-                                        props.cart.data.filter(c => c.ownerId === parseInt(window.localStorage.getItem("creds"))).map((cart, index)=>
+                                        props.cart.data.filter(c => c.ownerId === parseInt(
+                                            window.localStorage.getItem("creds")
+                                            ?
+                                            window.localStorage.getItem("creds")
+                                            :
+                                            window.sessionStorage.getItem("creds")
+                                            
+                                            )).map((cart, index)=>
                                             <tr key={index}>
                                                 {
                                                     props.accounts.data
@@ -132,18 +143,40 @@ const TradeRequestModal = (props) => {
                                                     .map((item, i) => 
                                                     <td key={i}>¥{item.price}</td>)
                                                 }
-                                                <td>{cart.acceptTrade}</td>
+                                                <td>
+                                                {
+                                                    cart.acceptTrade === "Pending" 
+                                                    ?
+                                                    <Badge variant="warning" className="mb-1" >{cart.acceptTrade}</Badge>
+                                                    :
+                                                    cart.acceptTrade === "Accepted"
+                                                    ?
+                                                    <Badge variant="success" className="mb-1" >{cart.acceptTrade}</Badge>
+                                                    :
+                                                    <Badge variant="danger" className="mb-1" >{cart.acceptTrade}</Badge>
+                                                }
+                                                </td>
                                                 <td>
                                                     {
                                                         cart.acceptTrade === "Pending" ?
                                                         <>
-                                                            <Button variant="success" onClick={() => handleTransaction("ACCEPTED", cart)}>Accept</Button>
-                                                            <Button variant="danger" className="ml-2" onClick={() => handleTransaction("DECLINED", cart)}>Decline</Button>
+                                                            <Button variant="success" onClick={() => handleTransaction("ACCEPTED", cart)}>
+                                                            
+                                                            <AiIcons.AiOutlineCheckCircle className="mr-1"/>
+                                                                Accept</Button>
+                                                            <Button variant="danger" className="ml-2" onClick={() => handleTransaction("DECLINED", cart)}>
+                                                            
+                                                            <BiIcons.BiErrorCircle className="mr-1"/>
+                                                                Decline</Button>
                                                         </>
                                                         :
                                                         <>
-                                                            <Button variant="primary" className="ml-2">Message</Button>
-                                                            <Button variant="secondary" className="ml-2" onClick={() => handleRemove(cart.id)}>Remove</Button>
+                                                            <Button variant="secondary" className="ml-2">
+                                                                <RiIcons.RiMessage2Fill className="mr-1"/>
+                                                                Message</Button>
+                                                            <Button variant="danger" className="ml-2" onClick={() => handleRemove(cart.id)}>
+                                                                <MdIcons.MdCancel className="mr-1"/>
+                                                                Remove</Button>
                                                         </>
                                                     }
                                                 </td>

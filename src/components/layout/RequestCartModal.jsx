@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { setCart } from "../../app/actions/CartActions";
@@ -9,8 +9,8 @@ const RequestCartModal = (props) => {
 
     const [form, setForm] = useState({
         acceptTrade: "Pending",
-        ownerId: props.ownerId,
-        ownerItemId: props.itemId,
+        ownerId: parseInt(props.ownerId),
+        ownerItemId: parseInt(props.itemId),
         requesterId: props.myAccount.id,
         requesterItemId: 0,
         transactionDate: "2021-03-10"
@@ -29,13 +29,25 @@ const RequestCartModal = (props) => {
         })
     };
 
+
     const handleAddToCart = async(e) => {
         console.log("ADD TO CART:");
         e.preventDefault();
+        
+        console.log(props.ownerId)
+        console.log(props.itemId)
         window.location.href = "/cart"
         props.setShowRequestCartModal(false);
-        console.log(form);
-        dispatch(setCart(form));
+        console.log({
+            ...form,
+            ownerId: parseInt(props.ownerId),
+            ownerItemId: parseInt(props.itemId)
+        });
+        dispatch(setCart({
+            ...form,
+            ownerId: parseInt(props.ownerId),
+            ownerItemId: parseInt(props.itemId)
+        }));
         
     }
     return (
@@ -51,10 +63,6 @@ const RequestCartModal = (props) => {
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
                     Request Trade
-                    {/* <p>{props.myAccount.id}</p> */}
-                    {/* <p>{props.myAccount.firstname}</p>
-                    <p>Item Id: {props.itemId}</p>
-                    <p>Owner Id: {props.ownerId}</p> */}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

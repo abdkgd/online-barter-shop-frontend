@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAccount } from '../../../app/actions/AccountActions'
 import { getItems } from '../../../app/actions/ItemActions'
 import { getCart } from '../../../app/actions/CartActions'
-import { Button } from 'react-bootstrap';
+import { Button, Badge } from 'react-bootstrap';
 import TradeRequestModal from '../../layout/TradeRequestModal';
 import { deleteCartById } from "../../../app/actions/CartIdActions";
+import * as RiIcons from 'react-icons/ri'
+import * as MdIcons from 'react-icons/md'
+import * as AiIcons from 'react-icons/ai'
 
 const Cart = () => {
 
@@ -37,7 +40,6 @@ const Cart = () => {
     }
     return (
         <div className="main-page">
-            <Search />
             <section className="section-pagetop bg">
                 <div className="container">
                     <h2 className="title-page">See your Requests!</h2>
@@ -63,13 +65,19 @@ const Cart = () => {
                                         <th>Price</th>
                                         <th>Trade Status</th>
                                         <th>Trade Date</th>
-                                        <th>Transaction</th>
+                                        <th>Messages</th>
                                         <th>Request</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        cart.data.filter(c => c.requesterId === parseInt(window.localStorage.getItem("creds"))).map((cart, index)=>
+                                        cart.data.filter(c => c.requesterId === parseInt(
+                                            window.localStorage.getItem("creds")
+                                            ?
+                                            window.localStorage.getItem("creds")
+                                            :
+                                            window.sessionStorage.getItem("creds")
+                                            )).map((cart, index)=>
                                             <tr key={index}>
                                                 {
                                                     accounts.data
@@ -107,12 +115,24 @@ const Cart = () => {
                                                     .map((item, i) => 
                                                     <td key={i}>¥{item.price}</td>)
                                                 }
-                                                <td>{cart.acceptTrade}</td>
+                                                
                                                 <td>
-                                                    {cart.transactionDate}
+                                                    {
+                                                    cart.acceptTrade === "Pending" 
+                                                    ?
+                                                    <Badge variant="warning" className="mb-1" >{cart.acceptTrade}</Badge>
+                                                    :
+                                                    cart.acceptTrade === "Accepted"
+                                                    ?
+                                                    <Badge variant="success" className="mb-1" >{cart.acceptTrade}</Badge>
+                                                    :
+                                                    <Badge variant="danger" className="mb-1" >{cart.acceptTrade}</Badge>
+                                                    }
                                                 </td>
+                                                <td>{cart.transactionDate}</td>
                                                 <td>
-                                                    <Button variant="primary">Messages</Button>
+                                                    <Button variant="secondary">
+                                                        <RiIcons.RiMessage2Fill className="mr-1"/>Messages</Button>
                                                 </td>
                                                 <td>
                                                     {
@@ -123,7 +143,9 @@ const Cart = () => {
                                                                 cart.acceptTrade === "Declined" ? 
                                                                     <Button variant="warning" disabled>Trade Declined</Button>
                                                                     :
-                                                                    <Button variant="danger" onClick={() => handleCancel(cart.id)}>Cancel</Button>
+                                                                    <Button variant="danger" onClick={() => handleCancel(cart.id)}>
+                                                                        <MdIcons.MdCancel className="mr-1"/>
+                                                                        Cancel</Button>
                                                             )
                                                     }
                                                 </td>
@@ -133,7 +155,9 @@ const Cart = () => {
                                 </tbody>
                                 </Table>
                                 <div className="cart-btn-wrapper">
-                                    <Button variant="primary" className="mt-2" onClick={() => handleTradeRequest()}>Trade Requests</Button>
+                                    <Button variant="primary" className="mt-2" onClick={() => handleTradeRequest()}>
+                                        <AiIcons.AiOutlineBranches className="mr-1"/>
+                                        Trade Requests</Button>
                                 </div>
                                 <TradeRequestModal show={shoTradeRequestModal} onHide={() => setShoTradeRequestModal(false)} cart={cart} accounts={accounts} items={items}/>
                                 </>

@@ -7,6 +7,7 @@ import * as AiIcons from 'react-icons/ai'
 import MyItemsModal from '../../layout/MyItemsModal';
 import EditAccountModal from '../../layout/EditAccountModal';
 import { getItems } from "../../../app/actions/ItemActions";
+import { IconContext } from 'react-icons'
 
 const MyAccount = () => {
 
@@ -17,7 +18,12 @@ const MyAccount = () => {
     const [showModalMyItems, setShowModalMyItems] = useState(false)
     const [showModalEditAccount, setShowModalEditAccount] = useState(false)
     useEffect(() => {
-        dispatch(getAccountById(parseInt(window.localStorage.getItem("creds"))))
+        dispatch(getAccountById(parseInt(
+        window.localStorage.getItem("creds") 
+        ?
+        window.localStorage.getItem("creds")
+        :
+        window.sessionStorage.getItem("creds"))))
     }, [])
 
     const handleMyItems = (id) => {
@@ -74,7 +80,11 @@ const MyAccount = () => {
                                                     {
                                                         (function (rows, i, len) {
                                                             while (++i <= len) {
-                                                            rows.push(<AiIcons.AiTwotoneStar key={i} />)
+                                                            rows.push(
+                                                            <IconContext.Provider key={i} value={{color: 'yellow'}}>
+                                                                <AiIcons.AiTwotoneStar/>
+                                                            </IconContext.Provider>
+                                                            )
                                                             }
                                                             return rows;
                                                         })

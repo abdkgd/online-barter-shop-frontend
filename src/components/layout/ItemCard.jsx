@@ -47,7 +47,7 @@ const ItemCard = ({data}) => {
                             </Card.Text>
                         </div>
                         {
-                            data.isTradeable == "true" ?
+                            data.isTradeable === "true" ?
                             <Button variant="success" onClick={() => handleRequest(data.id)}>Request Trade</Button>
                             :
                             <Button variant="danger" disabled>Not Available</Button>
