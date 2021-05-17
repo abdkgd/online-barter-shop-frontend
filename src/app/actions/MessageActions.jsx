@@ -25,3 +25,12 @@ export const updateMessage = (message) => async(dispatch) => {
     } catch (error) {
     }
 };
+
+export const deleteMessageById = (id) => async(dispatch) => {
+    try {
+        const res = await api.deleteMessageById(id);
+        dispatch({type: 'DELETE_MESSAGE', payload: id});
+        return res;
+    } catch (error) {
+    }
+};

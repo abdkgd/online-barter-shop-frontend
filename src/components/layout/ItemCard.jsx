@@ -4,18 +4,27 @@ import {Button} from 'react-bootstrap'
 import RequestCartModal from './RequestCartModal'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAccount } from "../../app/actions/AccountActions";
+import * as RiIcons from 'react-icons/ri'
+import * as MdIcons from 'react-icons/md'
 
 const ItemCard = ({data}) => {
 
     const dispatch = useDispatch()
-    const myAccount = useSelector(state => state.accountid)
     const accounts = useSelector(state => state.account)
     const items = useSelector(state => state.item)
     const [showRequestCartModal, setShowRequestCartModal] = useState(false)
+    const [myAccountId, setMyAccountId] = useState(
+        window.localStorage.getItem("creds")
+        ?
+        window.localStorage.getItem("creds")
+        :
+        window.sessionStorage.getItem("creds")
+    )
 
     useEffect(() => {
         dispatch(getAccount())
     }, [])
+
 
     const handleRequest = (id) => {
         setShowRequestCartModal(!showRequestCartModal)
@@ -48,16 +57,22 @@ const ItemCard = ({data}) => {
                         </div>
                         {
                             data.isTradeable === "true" ?
-                            <Button variant="success" onClick={() => handleRequest(data.id)}>Request Trade</Button>
+                            <Button variant="success" onClick={() => handleRequest(data.id)}>
+                                <RiIcons.RiAddCircleFill className="mr-2"/>
+                                Request Trade
+                            </Button>
                             :
-                            <Button variant="danger" disabled>Not Available</Button>
+                            <Button variant="danger" disabled>
+                                <MdIcons.MdCancel className="mr-2"/>
+                                Not Available
+                            </Button>
                         }
                 </Card.Body>
             </Card>
             {
-                myAccount.data && accounts.data &&
+                accounts.data &&
                 <RequestCartModal show={showRequestCartModal} setShowRequestCartModal={setShowRequestCartModal} onHide={()=> setShowRequestCartModal(false)}
-                ownerId={data.ownerId} itemId={data.id} myAccount={myAccount.data} accounts={accounts.data} items={items.data}/>
+                ownerId={data.ownerId} itemId={data.id} myAccountId={myAccountId} accounts={accounts.data} items={items.data}/>
             }
         </>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import * as RiIcons from 'react-icons/ri'
 const SectionNav = ({name}) => {
-
+    
     const handleLogOut = () => {
         window.localStorage.clear()
         window.sessionStorage.clear()
@@ -20,13 +20,13 @@ const SectionNav = ({name}) => {
                                 <Link className="nav-link" to={"/browse/items"}>Shop Items</Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to={"/cart"}>My Cart</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to={"/browse/inbox"}>My Inbox</Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link className="nav-link" to={"/browse/sellers"}>View Sellers</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to={"/cart"}>Cart</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to={"/browse/inbox"}>Inbox</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to={"/myaccount"}>Account</Link>

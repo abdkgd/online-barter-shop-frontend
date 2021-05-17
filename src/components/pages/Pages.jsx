@@ -16,7 +16,7 @@ const Pages = () => {
 
     const dispatch = useDispatch()
     const profile = useSelector(state => state.accountid)
-
+    
     useEffect(() => {
         if(parseInt(window.localStorage.getItem("creds"))){
             dispatch(getAccountById(parseInt(window.localStorage.getItem("creds"))))

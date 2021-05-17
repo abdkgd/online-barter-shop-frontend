@@ -622,9 +622,24 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-.message-content-details{
 
+.inbox-messages-content {
+  display: flex;
+  width: 100%;
 }
-.message-content-time{
 
+.inbox-messages-content-inner {
+  width: 800px;
+}
+
+.inbox-delete-button {
+  position: absolute !important;
+  right: 65px;
+}
+
+.rating-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

@@ -23,7 +23,7 @@ const Signup = ({logged, setLogged}) => {
         firstname: '',
         lastname: '',
         email: '',
-        rating: 3,
+        rating: 0,
         phoneNumber: '',
         profilePhoto: ''
     })
@@ -155,8 +155,8 @@ const Signup = ({logged, setLogged}) => {
                                     <input required type="text" className="form-control" placeholder="Enter last name" onChange={handleChange} id="lastname"/>
                                 </div>
                                 <div className="form-group">
-                                    <label>No.: XXXX-XXX-XXXX</label>
-                                    <input required type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" className="form-control" placeholder="Enter Phone Number" onChange={handleChange} id="phoneNumber"/>
+                                    <label>Phone Number</label>
+                                    <input required type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" className="form-control" placeholder="XXXX-XXX-XXXX" onChange={handleChange} id="phoneNumber"/>
                                 </div>
                                 <div className="btnWrapper">
                                     <button type="submit" className="btn btn-dark btn-lg btn-block">Register</button>

@@ -65,7 +65,7 @@ const EditItemModal = (props) => {
                 animation={false}
                 >
                 <form onSubmit={handleSubmit}>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Update Item
                     </Modal.Title>

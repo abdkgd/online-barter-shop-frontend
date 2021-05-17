@@ -1,14 +1,14 @@
 import React, { useEffect, useState} from 'react'
-import Search from '../../layout/Search.jsx'
 import ItemCard from '../../layout/ItemCard.jsx'
 import CardDeck from 'react-bootstrap/CardDeck'
 import ItemCategory from '../../layout/ItemCategory.jsx'
 import * as BsIcons from 'react-icons/bs'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { getItems } from "../../../app/actions/ItemActions";
 import _ from "lodash";
 
-const pageSize = 3;
+const pageSize = 8;
 const Items = () => {
     const dispatch = useDispatch()
     const items = useSelector(state => state.item)
@@ -16,6 +16,7 @@ const Items = () => {
     const [category, setCategory] = useState("All")
     const [paginatedItems, setPaginatedItems] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [search, setSearch] = useState("")
 
     useEffect(() => {
         dispatch(getItems());
@@ -55,19 +56,16 @@ const Items = () => {
             window.scrollTo(0, 0)
         }
     }
-    
+
+
+
 
     return (
         <div className="main-page">
             <div className="container SearchWrapper col-lg-6 col-sm-12">
-                <form action="#" className="search">
+                <form className="search">
                     <div className="input-group w-100">
-                            <input type="text" className="form-control" placeholder="Search" />
-                            <div className="input-group-append">
-                                <button className="btn btn-dark" type="submit">
-                                <BsIcons.BsSearch />
-                                </button>
-                            </div>
+                            <input type="text" className="form-control" placeholder="Search" id="searchbar" onChange={(event) => setSearch(event.target.value)}/>
                     </div>
                 </form>
             </div>
@@ -87,10 +85,27 @@ const Items = () => {
                         <div>
                             <CardDeck>
                                     {
+                                        
                                         items.data && paginatedItems &&
                                         (
-                                            category === "All" ?
-                                            paginatedItems.map((item, index)=>
+                                            category === "All"
+                                            ?
+                                            paginatedItems
+                                            .filter((item) => {
+                                                if(search === ""){
+                                                    return item
+                                                }
+                                                else if(
+                                                    item.description.toLowerCase().includes(search.toLowerCase())
+                                                    ||
+                                                    item.location.toLowerCase().includes(search.toLowerCase())
+                                                    ||
+                                                    item.status.toLowerCase().includes(search.toLowerCase())
+                                                    ){
+                                                    return item
+                                                }
+                                            })
+                                            .map((item, index)=>
                                             <div key={index}>
                                                 {
                                                     item.ownerId !== parseInt(
@@ -105,7 +120,23 @@ const Items = () => {
                                             </div>
                                             )
                                             :
-                                            items.data.filter(x => x.category === category).map((item, index)=>
+                                            paginatedItems
+                                            .filter(x => x.category === category)
+                                            .filter((item) => {
+                                                if(search === ""){
+                                                    return item
+                                                }
+                                                else if(
+                                                    item.description.toLowerCase().includes(search.toLowerCase())
+                                                    ||
+                                                    item.location.toLowerCase().includes(search.toLowerCase())
+                                                    ||
+                                                    item.status.toLowerCase().includes(search.toLowerCase())
+                                                    ){
+                                                    return item
+                                                }
+                                            })
+                                            .map((item, index)=>
                                             <div key={index}>
                                                 {
                                                     item.ownerId !== parseInt(
@@ -113,7 +144,8 @@ const Items = () => {
                                                     ?
                                                     window.localStorage.getItem("creds")
                                                     :
-                                                    window.sessionStorage.getItem("creds")) &&
+                                                    window.sessionStorage.getItem("creds"))
+                                                    &&
                                                     <ItemCard data={item}/>
                                                 }
                                             </div>

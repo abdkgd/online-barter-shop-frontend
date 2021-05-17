@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteItemById, getItemById } from "../../app/actions/ItemById";
 import EditItemModal from './EditItemModal'
 import _ from "lodash";
-const pageSize = 6;
+
+const pageSize = 5;
 const MyItemsModal = (props) => {
 
     const dispatch = useDispatch()
@@ -15,11 +16,17 @@ const MyItemsModal = (props) => {
     const [showEditItemModal, setShowEditItemModal] = useState(false)
     const [paginatedMyItems, setPaginatedMyItems] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    
-    useEffect(() => {
-        setPaginatedMyItems(_(props.data).slice(0).take(pageSize).value());
-    }, [])
+    const [paginatedCount, setPaginatedCount] = useState()
 
+    useEffect(() => {
+        setPaginatedMyItems(_(props.data && props.data
+            .filter(item => props.myId === item.ownerId)
+            ).slice(0).take(pageSize).value());
+
+        setPaginatedCount((props.data && props.data
+            .filter(item => props.myId === item.ownerId)
+            ));
+    }, [])
     
     const handleAddItem = () => {
         props.setShow(false)
@@ -42,22 +49,25 @@ const MyItemsModal = (props) => {
     }
 
 
-    const pageCount = props.data ? Math.ceil(props.data.length / pageSize) : 0;
-    const pages = _.range(1,pageCount + 1);
+    const pageCount = paginatedCount ? Math.ceil(paginatedCount.length / pageSize) : 0;
+    const pages = _.range(1, pageCount + 1);
 
     const handlePagination = (pageNo) => {
         setCurrentPage(pageNo);
         const startIndex = (pageNo - 1) * pageSize;
-        const paginatedPost = _(props.data).slice(startIndex).take(pageSize).value();
+        const paginatedPost = _(props.data
+            .filter(item => props.myId === item.ownerId)
+            ).slice(startIndex).take(pageSize).value();
         setPaginatedMyItems(paginatedPost);
         window.scrollTo(0, 0)
     }
 
     const handleNext = () => {
         if(pages.length !== currentPage){
-            
             const startIndex = (currentPage) * pageSize;
-            const paginatedPost = _(props.data).slice(startIndex).take(pageSize).value();
+            const paginatedPost = _(props.data
+                .filter(item => props.myId === item.ownerId)
+                ).slice(startIndex).take(pageSize).value();
             setPaginatedMyItems(paginatedPost);
             setCurrentPage(currentPage + 1);
             window.scrollTo(0, 0)
@@ -67,7 +77,9 @@ const MyItemsModal = (props) => {
         if(currentPage !== 1){
             
             const startIndex = (currentPage - 2) * pageSize;
-            const paginatedPost = _(props.data).slice(startIndex ).take(pageSize).value();
+            const paginatedPost = _(props.data
+                .filter(item => props.myId === item.ownerId)
+                ).slice(startIndex ).take(pageSize).value();
             setPaginatedMyItems(paginatedPost);
             setCurrentPage(currentPage - 1);
             window.scrollTo(0, 0)
@@ -82,9 +94,15 @@ const MyItemsModal = (props) => {
                 centered
                 animation={false}
                 >
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        {props.myName}'s Items
+                        {
+                            props.myName
+                            ?
+                            props.myName + "'s Item"
+                            :
+                            "Seller's Item"
+                        }
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -100,14 +118,18 @@ const MyItemsModal = (props) => {
                                     <th>Specification</th>
                                     <th>Location</th>
                                     <th>Publish Date</th>
-                                    <th>Configure</th>
+                                    {   
+                                        props.isProfileItem &&
+                                        <th>Configure</th>
+                                    }
+                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 {   
                                     props.data && paginatedMyItems &&
-                                    paginatedMyItems.map((item, index) => 
-                                    props.myId === item.ownerId &&
+                                    paginatedMyItems
+                                    .map((item, index) => 
                                         <tr key={index}>
                                             <td className="profilePhotoWrapper"><img className="profilePhoto" src={item.photo} alt=""/></td>
                                             <td>{item.description}</td>
@@ -123,10 +145,14 @@ const MyItemsModal = (props) => {
                                             <td>{item.itemSpecification}</td>
                                             <td>{item.location}</td>
                                             <td>{item.publishDate}</td>
-                                            <td>
+                                            {
+                                                
+                                                props.isProfileItem &&
+                                                <td>
                                                 <Button variant="success" onClick={() => handleEditItem(item.id)} className="mr-2">Edit Item</Button>
                                                 <Button variant="danger" onClick={() => handleDeleteItem(item.id)}>Delete Item</Button>
-                                            </td>
+                                                </td>
+                                            }
                                         </tr>
                                         )
                                 }
@@ -152,7 +178,10 @@ const MyItemsModal = (props) => {
                             </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={handleAddItem}>Add Item</Button>
+                        {
+                            props.isProfileItem &&
+                            <Button variant="primary" onClick={handleAddItem}>Add Item</Button>
+                        }
                         <Button onClick={props.onHide} variant="danger">Close</Button>
                     </Modal.Footer>
                 </Modal>

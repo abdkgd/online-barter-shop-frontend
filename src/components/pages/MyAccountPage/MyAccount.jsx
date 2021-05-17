@@ -88,7 +88,7 @@ const MyAccount = () => {
                                                             }
                                                             return rows;
                                                         })
-                                                        ([], 0, profile.data.rating)
+                                                        ([], 0, profile.data.rating / profile.data.nrating)
                                                     }
                                                     </p>
                                                 </div>
@@ -125,11 +125,11 @@ const MyAccount = () => {
                 </div>
                 {
                     items.data &&
-                    <MyItemsModal show={showModalMyItems} setShow={setShowModalMyItems} onHide={() => setShowModalMyItems(false)} myId={profile.data.id} myName={profile.data.firstname} data={items.data}/>
+                    <MyItemsModal isProfileItem={true} show={showModalMyItems} setShow={setShowModalMyItems} onHide={() => setShowModalMyItems(false)} myId={profile.data.id} myName={profile.data.firstname} data={items.data}/>
                 }
                 {
                     profile.data &&
-                    <EditAccountModal show={showModalEditAccount} onHide={() => setShowModalEditAccount(false)} myAccount={profile.data}/>
+                    <EditAccountModal show={showModalEditAccount} setShowModalEditAccount={setShowModalEditAccount} onHide={() => setShowModalEditAccount(false)} myAccount={profile.data}/>
                 }
                 </>
             }

@@ -1,53 +1,82 @@
 import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import { Button } from 'react-bootstrap'
-import Search from '../../layout/Search'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAccount } from '../../../app/actions/AccountActions'
-import { getAccountById } from "../../../app/actions/AccountIdActions";
+import { getItems } from "../../../app/actions/ItemActions";
 import * as AiIcons from 'react-icons/ai'
 import * as MdIcons from 'react-icons/md'
 import ProfileModal from '../../layout/ProfileModal'
 import _ from "lodash";
 import { IconContext } from 'react-icons'
+import MyItemsModal from '../../layout/MyItemsModal'
 
 const pageSize = 5;
 const Seller = () => {
 
     const dispatch = useDispatch();
     const users = useSelector(state => state.account)
-    const userid = useSelector(state => state.accountid)
+    const items = useSelector(state => state.item)
     const [showModal, setShowModal] = useState(false)
+    const [showModalMyItems, setShowModalMyItems] = useState(false)
     const [paginatedUsers, setPaginatedUsers] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [userId, setUserId] = useState(-1)
+    const [paginatedCount, setPaginatedCount] = useState()
 
     useEffect(() => {
         dispatch(getAccount());
+        dispatch(getItems());
         console.log(users.data);
         console.log(window.localStorage.getItem("creds"));
     }, [])
 
     useEffect(() => {
-        setPaginatedUsers(_(users.data && users.data.sort((a, b) => a.firstname > b.firstname ? -1 : 1)).slice(0).take(pageSize).value());
+        setPaginatedUsers(_(users.data && users.data
+            .filter(user => user.id !== parseInt(
+                window.localStorage.getItem("creds")
+                ?
+                window.localStorage.getItem("creds")
+                :
+                window.sessionStorage.getItem("creds")
+            ))
+            .sort((a, b) => a.firstname > b.firstname ? -1 : 1))
+            .slice(0).take(pageSize).value());
+        setPaginatedCount((users.data && users.data
+            .filter(user => user.id !== parseInt(
+                window.localStorage.getItem("creds")
+                ?
+                window.localStorage.getItem("creds")
+                :
+                window.sessionStorage.getItem("creds")
+            ))
+            .sort((a, b) => a.firstname > b.firstname ? -1 : 1)))
     }, [users])
 
 
     const handleViewProfile = (id) => {
         console.log(id);
-        console.log("CLICKED!");
-        dispatch(getAccountById(id))
-        console.log(userid.data);
+        setUserId(id);
         setShowModal(!showModal);
     }
 
 
-    const pageCount = users.data ? Math.ceil(users.data.length / pageSize) : 0;
+    const pageCount = paginatedCount ? Math.ceil(paginatedCount.length / pageSize) : 0;
     const pages = _.range(1,pageCount + 1);
 
     const handlePagination = (pageNo) => {
         setCurrentPage(pageNo);
         const startIndex = (pageNo - 1) * pageSize;
-        const paginatedPost = _(users.data).slice(startIndex).take(pageSize).value();
+        const paginatedPost = _(users.data
+            .filter(user => user.id !== parseInt(
+                window.localStorage.getItem("creds")
+                ?
+                window.localStorage.getItem("creds")
+                :
+                window.sessionStorage.getItem("creds")
+            ))
+            .sort((a, b) => a.firstname > b.firstname ? -1 : 1))
+            .slice(startIndex).take(pageSize).value();
         setPaginatedUsers(paginatedPost);
         window.scrollTo(0, 0)
     }
@@ -55,7 +84,16 @@ const Seller = () => {
     const handleNext = () => {
         if(pages.length !== currentPage){
             const startIndex = (currentPage) * pageSize;
-            const paginatedPost = _(users.data).slice(startIndex).take(pageSize).value();
+            const paginatedPost = _(users.data
+                .filter(user => user.id !== parseInt(
+                    window.localStorage.getItem("creds")
+                    ?
+                    window.localStorage.getItem("creds")
+                    :
+                    window.sessionStorage.getItem("creds")
+                ))
+                .sort((a, b) => a.firstname > b.firstname ? -1 : 1))
+                .slice(startIndex).take(pageSize).value();
             setPaginatedUsers(paginatedPost);
             setCurrentPage(currentPage + 1);
             window.scrollTo(0, 0)
@@ -64,13 +102,26 @@ const Seller = () => {
     const handlePrevious = () => {
         if(currentPage !== 1){
             const startIndex = (currentPage - 2) * pageSize;
-            const paginatedPost = _(users.data).slice(startIndex ).take(pageSize).value();
+            const paginatedPost = _(users.data
+                .filter(user => user.id !== parseInt(
+                    window.localStorage.getItem("creds")
+                    ?
+                    window.localStorage.getItem("creds")
+                    :
+                    window.sessionStorage.getItem("creds")
+                ))
+                .sort((a, b) => a.firstname > b.firstname ? -1 : 1))
+                .slice(startIndex ).take(pageSize).value();
             setPaginatedUsers(paginatedPost);
             setCurrentPage(currentPage - 1);
             window.scrollTo(0, 0)
         }
     }
 
+    const handleSellerItemModal = () => {
+        setShowModalMyItems(false);
+        setShowModal(true);
+    }
     return (
         <>
         <div className="main-page">
@@ -104,13 +155,6 @@ const Seller = () => {
                             .map((user, index) => 
                             <tr key={index}>
                                 {   
-                                    user.id !== parseInt(
-                                        window.localStorage.getItem("creds")
-                                        ?
-                                        window.localStorage.getItem("creds")
-                                        :
-                                        window.sessionStorage.getItem("creds")
-                                    ) &&
                                     <>
                                         <td className="profilePhotoWrapper"><img className="profilePhoto" src={user.profilePhoto} alt=""/></td>
                                         <td>{user.firstname}</td>
@@ -129,7 +173,7 @@ const Seller = () => {
                                             }
                                                 return rows;
                                             })
-                                            ([], 0, user.rating)
+                                            ([], 0, user.rating / user.nrating)
                                         }
                                         </td>
                                         <td>{user.phoneNumber}</td>
@@ -146,7 +190,8 @@ const Seller = () => {
                             <ul className="pagination">
                                 <li className="page-item cursor-pointer" onClick = {() => handlePrevious()}><p className="page-link" >Previous</p></li>
                                 {
-                                    pages.map((page, index) => (
+                                    pages
+                                    .map((page, index) => (
                                         <li key={index} className= {page === currentPage ? "page-item active" : "page-item"}>
                                             <p className="page-link cursor-pointer" onClick = {() => handlePagination(page)}>{page}</p>
                                         </li>
@@ -157,9 +202,12 @@ const Seller = () => {
                         </nav>
                     </div>
                 </div>
-                <ProfileModal show={showModal} onHide={() => setShowModal(false)}>
+                <ProfileModal setShowModalMyItems={setShowModalMyItems} show={showModal} setShowModal={setShowModal} onHide={() => setShowModal(false)}>
                         {
-                            userid.data &&
+                            userId && users.data &&
+                            users.data.filter((user) => user.id === userId)
+                            .map((user, index) => 
+                            <div key={index}>
                             <div className="row">
                                 
                                 <div className="col-4 d-flex justify-content-center">
@@ -167,7 +215,7 @@ const Seller = () => {
                                         <div className="mb-1">
                                             <label>Profile Photo:</label>
                                         </div>
-                                        <img src={userid.data.profilePhoto} alt="" className="dp"/>
+                                        <img src={user.profilePhoto} alt="" className="dp"/>
                                         
                                     </div>
                                 </div>
@@ -178,16 +226,20 @@ const Seller = () => {
                                             <p>Rating:</p>
                                         </div>
                                         <div className="col-6">
-                                            <label>{userid.data.username}</label>
+                                            <label>{user.username}</label>
                                             <p>
                                                 {
                                                     (function (rows, i, len) {
                                                         while (++i <= len) {
-                                                        rows.push(<AiIcons.AiTwotoneStar key={i}/>)
+                                                        rows.push(
+                                                        <IconContext.Provider key={i} value={{color: 'yellow'}}>
+                                                            <AiIcons.AiTwotoneStar/>
+                                                        </IconContext.Provider>
+                                                        )
                                                         }
                                                         return rows;
                                                     })
-                                                    ([], 0, userid.data.rating)
+                                                    ([], 0, user.rating / user.nrating)
                                                 }
                                             </p>
                                         </div>
@@ -198,8 +250,8 @@ const Seller = () => {
                                             <p>Last Name:</p>
                                         </div>
                                         <div className="col-6">
-                                            <label>{userid.data.firstname}</label>
-                                            <p>{userid.data.lastname}</p>
+                                            <label>{user.firstname}</label>
+                                            <p>{user.lastname}</p>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -208,14 +260,20 @@ const Seller = () => {
                                             <p>Email:</p>
                                         </div>
                                         <div className="col-6">
-                                            <label>{userid.data.phoneNumber}</label>
-                                            <p>{userid.data.email}</p>
+                                            <label>{user.phoneNumber}</label>
+                                            <p>{user.email}</p>
                                         </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
+                            )
                         }
                 </ProfileModal>
+                {
+                    items.data && userId && showModalMyItems &&
+                    <MyItemsModal isProfileItem={false} show={showModalMyItems} setShow={setShowModalMyItems} onHide={() => handleSellerItemModal()} myId={userId} data={items.data}/>
+                }
             </div>
         </div>
         </>

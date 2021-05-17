@@ -6,6 +6,8 @@ const reducer = (state = [], action) => {
             return [...state, action.payload]
         case 'UPDATE_MESSAGE':
             return [...state, action.payload]
+        case 'DELETE_MESSAGE':
+                return action.payload
         default:
             return state
     }

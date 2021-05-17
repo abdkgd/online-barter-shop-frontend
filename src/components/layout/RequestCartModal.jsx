@@ -1,17 +1,21 @@
-import React, {useState, useEffect} from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import React, {useState} from 'react'
+import { Modal, Button, Badge, Alert } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { setCart } from "../../app/actions/CartActions";
+import RequestRatingModal from './RequestRatingModal';
+
 
 const RequestCartModal = (props) => {
 
     const dispatch = useDispatch()
+    const [showRequestRatingModal, setShowRequestRatingModal] = useState(false)
+    const [isSelected, setIsSelected] = useState(false)
 
     const [form, setForm] = useState({
         acceptTrade: "Pending",
         ownerId: parseInt(props.ownerId),
         ownerItemId: parseInt(props.itemId),
-        requesterId: props.myAccount.id,
+        requesterId: parseInt(props.myAccountId),
         requesterItemId: 0,
         transactionDate: "2021-03-10"
     })
@@ -36,20 +40,32 @@ const RequestCartModal = (props) => {
         
         console.log(props.ownerId)
         console.log(props.itemId)
-        window.location.href = "/cart"
-        props.setShowRequestCartModal(false);
         console.log({
             ...form,
             ownerId: parseInt(props.ownerId),
             ownerItemId: parseInt(props.itemId)
         });
-        dispatch(setCart({
-            ...form,
-            ownerId: parseInt(props.ownerId),
-            ownerItemId: parseInt(props.itemId)
-        }));
+        if(form.requesterItemId === 0){
+            setIsSelected(true)
+        }
+        else{
+            setIsSelected(false)
+            dispatch(setCart({
+                ...form,
+                ownerId: parseInt(props.ownerId),
+                ownerItemId: parseInt(props.itemId)
+            }));
+            props.setShowRequestCartModal(false)
+            setShowRequestRatingModal(true)
+        }
         
     }
+
+    const handleRatingHide = () => {
+        window.location.href = "/cart"
+        setShowRequestRatingModal(false)
+    }
+    
     return (
         <>
             <Modal
@@ -60,7 +76,7 @@ const RequestCartModal = (props) => {
                 animation={false}
                 >
                 <form onSubmit={handleAddToCart}>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
                     Request Trade
                     </Modal.Title>
@@ -70,14 +86,14 @@ const RequestCartModal = (props) => {
                     <div className="row mb-2">
                                 <div className="col-12">
                                     <div className="add-item-modal-image-container">
-                                        <label>Item Seller</label>
+                                        <Badge variant="success" className="mb-1">Item Seller</Badge>
                                         <div className="form-group">
                                             {
                                                 props.accounts.filter(x => x.id === props.ownerId)
                                                 .map((acc, index) => 
                                                 <div className="add-request-image-wrapper" key={index}>
                                                     <img src={acc.profilePhoto} alt="" className="img border border-dark rounded-circle" />
-                                                    <label className="mt-1 font">{acc.firstname}'s item</label>
+                                                    <Badge variant="secondary" className="mt-1">{acc.firstname}'s item</Badge>
                                                 </div>
                                                 )
                                             }
@@ -108,12 +124,17 @@ const RequestCartModal = (props) => {
                                 </div>
                             </div>
                             <div className="row mb-2">
+                                <div className="col-12">
+                                    {isSelected && <Alert variant="danger">Please Select Trade Item</Alert>}
+                                </div>
+                            </div>
+                            <div className="row mb-2">
                                 <div className="col-6">
                                     <label>Trade Item:</label>
                                     <select className="form-control" onChange={handleChangeInt} id="requesterItemId" >
-                                        <option defaultValue>Select Item</option>
+                                        <option>Select Item</option>
                                         {
-                                            props.items.filter(x => x.ownerId === props.myAccount.id && x.status === "Available")
+                                            props.items.filter(x => x.ownerId ===  parseInt(props.myAccountId) && x.status === "Available")
                                             .map((i, index) =>
                                                 <option key={index} value={parseInt(i.id)}>{i.description} - ¥{i.price}</option>
                                             )
@@ -133,6 +154,8 @@ const RequestCartModal = (props) => {
                     </Modal.Footer>
                     </form>
                 </Modal>
+                <RequestRatingModal show={showRequestRatingModal} setShowRequestRatingModal={setShowRequestRatingModal} onHide={()=> handleRatingHide()}
+                ownerId={props.ownerId} accounts={props.accounts}/>
         </>
     )
 }

@@ -18,7 +18,11 @@ const AddItemModal = (props) => {
         isTradeable: '',
         location: '',
         itemSpecification: '',
-        ownerId : parseInt(window.localStorage.getItem("creds")),
+        ownerId : parseInt(window.localStorage.getItem("creds")
+        ?
+        window.localStorage.getItem("creds")
+        :
+        window.sessionStorage.getItem("creds")),
     })
 
     const imageHandler = (e) => {
@@ -63,7 +67,7 @@ const AddItemModal = (props) => {
                 animation={false}
                 >
                 <form onSubmit={handleSubmit}>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Add Items
                     </Modal.Title>

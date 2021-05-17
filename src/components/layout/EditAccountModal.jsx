@@ -24,8 +24,9 @@ const EditAccountModal = (props) => {
         password: props.myAccount.password,
         phoneNumber: props.myAccount.phoneNumber,
         profilePhoto: props.myAccount.profilePhoto,
+        username: props.myAccount.username,
         rating: props.myAccount.rating,
-        username: props.myAccount.username
+        nrating: props.myAccount.nrating
     })
 
     const [accountImg, setAccountImg] = useState(props.myAccount.profilePhoto)
@@ -89,9 +90,9 @@ const EditAccountModal = (props) => {
             flag2 = false;
         }
         if(flag1 && flag2){
-            window.location.href = "/myaccount"
-            console.log(form);
             dispatch(updateAccount(form));
+            console.log(form);
+            props.setShowModalEditAccount(false)
         }
         
     }
@@ -105,7 +106,7 @@ const EditAccountModal = (props) => {
                 animation={false}
                 >
                 <form onSubmit={handleSubmit}>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Edit Account
                     </Modal.Title>
@@ -138,13 +139,9 @@ const EditAccountModal = (props) => {
                                 </div>
                             </div>
                             <div className="row mb-2">
-                                <div className="col-6">
+                                <div className="col-12">
                                     <label>Email:</label>
                                     <input required defaultValue={props.myAccount.email} type="email" className="form-control" placeholder="Enter email" id="email" onChange={handleChange}/>
-                                </div>
-                                <div className="col-6">
-                                    <label>Rating:</label>
-                                    <input required defaultValue={props.myAccount.rating} type="number" className="form-control" placeholder="Enter rating" id="rating" onChange={handleChange}/>
                                 </div>
                             </div>
                             <div className="row mb-2">

@@ -27,3 +27,4 @@ export const deleteItemById = (id) => axios.delete(`http://localhost:7000/api/it
 export const getItemById = (id) => axios.get(`http://localhost:7000/api/items/${id}`) 
 export const getAccountById = (id) => axios.get(`http://localhost:7000/api/users/${id}`)
 export const deleteCartById = (id) => axios.delete(`http://localhost:7000/api/cart/${id}`) 
+export const deleteMessageById = (id) => axios.delete(`http://localhost:7000/api/messages/${id}`) 
