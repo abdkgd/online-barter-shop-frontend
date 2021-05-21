@@ -10,6 +10,8 @@ import SignUp from './components/auth/Signup.jsx'
 import { useState, useEffect } from "react";
 import Pages from './components/pages/Pages.jsx'
 import About from './components/auth/About';
+import Home from './components/pages/Home/Home.jsx'
+import SectionFooter from './components/layout/SectionFooter';
 
 function App() {
   const [logged, setLogged] = useState(false);
@@ -53,7 +55,7 @@ function App() {
           <div>
             <NavBar />
             <Switch>
-              <Route exact path='/' render={() => <Login logged={logged} setLogged={setLogged}/>} />
+              <Route exact path='/' render={() => <><Home /><SectionFooter /></>} />
               <Route path="/signin" render={() => <Login logged={logged} setLogged={setLogged}/>} />
               <Route path="/signup" render={() => <SignUp logged={logged} setLogged={setLogged}/>} />
               <Route path="/about" render={() => <About />} />

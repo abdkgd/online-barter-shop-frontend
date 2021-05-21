@@ -141,7 +141,7 @@ const Signup = ({logged, setLogged}) => {
 
                                 <div className="form-group">
                                     <label>Email</label>
-                                    <input required type="email" className="form-control" placeholder="Enter email" onChange={handleChange} id="email"/>
+                                    <input required type="email" className="form-control" placeholder="example@email.com" onChange={handleChange} id="email"/>
                                 </div>
                             </div>
                             <div className="col">
@@ -156,7 +156,7 @@ const Signup = ({logged, setLogged}) => {
                                 </div>
                                 <div className="form-group">
                                     <label>Phone Number</label>
-                                    <input required type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" className="form-control" placeholder="XXXX-XXX-XXXX" onChange={handleChange} id="phoneNumber"/>
+                                    <input required type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" className="form-control" placeholder="e.g. 9999-999-9999" onChange={handleChange} id="phoneNumber"/>
                                 </div>
                                 <div className="btnWrapper">
                                     <button type="submit" className="btn btn-dark btn-lg btn-block">Register</button>

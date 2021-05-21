@@ -24,7 +24,7 @@ const Home = () => {
                             BARTER SYSTEM
                         </h1>
                         <p className="home-description">We allow individuals to trade items that they own while keeping their cash on hand.</p>
-                        <Link to={"/browse/items"}><Button variant="dark">EXCHANGE NOW!</Button></Link>
+                        <Link to={"/"}><Button variant="dark">EXCHANGE NOW!</Button></Link>
                     </div>
                 </div>
                 <div className="col-6 home-photo">

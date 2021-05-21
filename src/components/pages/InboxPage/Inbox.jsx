@@ -13,7 +13,7 @@ import ComposeModal from '../../layout/ComposeModal';
 import moment from 'moment'
 import _ from "lodash";
 
-const pageSize = 3;
+const pageSize = 10;
 const Inbox = () => {
     const dispatch = useDispatch()
     const message = useSelector(state => state.message)
@@ -41,6 +41,7 @@ const Inbox = () => {
 
     useEffect(() => {
         setPaginatedMessage(_(message.data && message.data
+            .sort((a, b) => a.notification > b.notification ? -1 : 1)
             .sort((a, b) => moment(b.messageDate).toDate() - moment(a.messageDate).toDate())
             .filter(x => (isInbox ? x.receiverId: x.senderId) === 
             parseInt(
@@ -52,6 +53,7 @@ const Inbox = () => {
             )
             .slice(0).take(pageSize).value());
         setPaginatedCount((message.data && message.data
+            .sort((a, b) => a.notification > b.notification ? -1 : 1)
             .sort((a, b) => moment(b.messageDate).toDate() - moment(a.messageDate).toDate())
             .filter(x => (isInbox ? x.receiverId: x.senderId) === 
             parseInt(
@@ -70,6 +72,7 @@ const Inbox = () => {
         setCurrentPage(pageNo);
         const startIndex = (pageNo - 1) * pageSize;
         const paginatedPost = _(message.data && message.data
+            .sort((a, b) => a.notification > b.notification ? -1 : 1)
             .sort((a, b) => moment(b.messageDate).toDate() - moment(a.messageDate).toDate())
             .filter(x => (isInbox ? x.receiverId: x.senderId) === 
             parseInt(
@@ -88,6 +91,7 @@ const Inbox = () => {
         if(pages.length !== currentPage){
             const startIndex = (currentPage) * pageSize;
             const paginatedPost = _(message.data && message.data
+                .sort((a, b) => a.notification > b.notification ? -1 : 1)
                 .sort((a, b) => moment(b.messageDate).toDate() - moment(a.messageDate).toDate())
                 .filter(x => (isInbox ? x.receiverId: x.senderId) === 
                 parseInt(
@@ -107,6 +111,7 @@ const Inbox = () => {
         if(currentPage !== 1){
             const startIndex = (currentPage - 2) * pageSize;
             const paginatedPost = _(message.data && message.data
+                .sort((a, b) => a.notification > b.notification ? -1 : 1)
                 .sort((a, b) => moment(b.messageDate).toDate() - moment(a.messageDate).toDate())
                 .filter(x => (isInbox ? x.receiverId: x.senderId) === 
                 parseInt(
@@ -228,7 +233,7 @@ const Inbox = () => {
                                                                 }
                                                         </div>
                                                         <div className="message-content-time">
-                                                            <Badge variant="info">Date and Time :</Badge>
+                                                            <Badge variant="info">Date :</Badge>
                                                             <Badge variant="light" className="mr-3">{msg.messageDate}</Badge> 
                                                         </div>
                                                     </div>

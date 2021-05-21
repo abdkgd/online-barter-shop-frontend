@@ -82,7 +82,7 @@ const RequestRatingModal = (props) => {
                     <div className="container">
                         <div className="row">
                             <div className="col-12">
-                            <Alert variant="success">Request Successfully. You can rate and add comments!</Alert>
+                            <Alert variant="success">Your request has been sent successfully!</Alert>
                             </div>
                             <div className="col-6 rating-wrapper">
                                 {

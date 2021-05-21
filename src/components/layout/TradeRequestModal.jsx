@@ -10,7 +10,9 @@ import * as MdIcons from 'react-icons/md'
 import * as AiIcons from 'react-icons/ai'
 import * as BiIcons from 'react-icons/bi'
 import ComposeModal from './ComposeModal';
+import unavailable from '../../assets/images/unavailable-1.png'
 import _ from "lodash";
+import moment from 'moment'
 
 const pageSize = 5;
 const TradeRequestModal = (props) => {
@@ -25,6 +27,7 @@ const TradeRequestModal = (props) => {
 
     useEffect(() => {  
         setPaginatedTradeRequest(_(props.cart.data
+            .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
             .filter(c => c.ownerId === parseInt(
                 window.localStorage.getItem("creds")
                 ?
@@ -35,6 +38,7 @@ const TradeRequestModal = (props) => {
                 )))
             .slice(0).take(pageSize).value())
         setPaginatedCount((props.cart.data
+            .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
             .filter(c => c.ownerId === parseInt(
                 window.localStorage.getItem("creds")
                 ?
@@ -52,6 +56,7 @@ const TradeRequestModal = (props) => {
         setCurrentPage(pageNo);
         const startIndex = (pageNo - 1) * pageSize;
         const paginatedPost = _(props.cart.data
+            .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
             .filter(c => c.ownerId === parseInt(
                 window.localStorage.getItem("creds")
                 ?
@@ -69,6 +74,7 @@ const TradeRequestModal = (props) => {
         if(pages.length !== currentPage){
             const startIndex = (currentPage) * pageSize;
             const paginatedPost = _(props.cart.data
+                .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
                 .filter(c => c.ownerId === parseInt(
                     window.localStorage.getItem("creds")
                     ?
@@ -87,6 +93,7 @@ const TradeRequestModal = (props) => {
         if(currentPage !== 1){
             const startIndex = (currentPage - 2) * pageSize;
             const paginatedPost = _(props.cart.data
+                .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
                 .filter(c => c.ownerId === parseInt(
                     window.localStorage.getItem("creds")
                     ?
@@ -149,8 +156,8 @@ const TradeRequestModal = (props) => {
     }
 
     const handleRemove = (id) => {
-        console.log(id)
         dispatch(deleteCartById(id))
+        console.log(id)
         window.location.href = "/cart"
     }
 
@@ -182,7 +189,7 @@ const TradeRequestModal = (props) => {
                 
                 <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Trade Request from Other Seller
+                        Trade Request from Other Sellers
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -197,7 +204,7 @@ const TradeRequestModal = (props) => {
                                         <th>Image</th>
                                         <th>Price</th>
                                         <th>Trade Status</th>
-                                        <th>Transaction</th>
+                                        <th>Transaction Status</th>
                                         
                                     </tr>
                                 </thead>
@@ -216,14 +223,26 @@ const TradeRequestModal = (props) => {
                                                 {
                                                     props.items.data
                                                     .filter(item => item.id === cart.requesterItemId)
+                                                    .length > 0 
+                                                    ?
+                                                    props.items.data
+                                                    .filter(item => item.id === cart.requesterItemId)
                                                     .map((item, i) => 
                                                     <td key={i} className="profilePhotoWrapper" ><img className="profilePhoto" src={item.photo} alt=""/></td>)
+                                                    :
+                                                    <td className="profilePhotoWrapper" ><img className="profilePhoto" src={unavailable} alt=""/></td>
                                                 }
                                                 {
                                                     props.items.data
                                                     .filter(item => item.id === cart.requesterItemId)
+                                                    .length > 0 
+                                                    ?
+                                                    props.items.data
+                                                    .filter(item => item.id === cart.requesterItemId)
                                                     .map((item, i) => 
                                                     <td key={i}>¥{item.price}</td>)
+                                                    :
+                                                    <td>Unavailable</td>
                                                 }
                                                 {
                                                     props.accounts.data
@@ -234,14 +253,27 @@ const TradeRequestModal = (props) => {
                                                 {
                                                     props.items.data
                                                     .filter(item => item.id === cart.ownerItemId)
+                                                    .length > 0 
+                                                    ?
+                                                    props.items.data
+                                                    .filter(item => item.id === cart.ownerItemId)
                                                     .map((item, i) => 
                                                     <td key={i} className="profilePhotoWrapper" ><img className="profilePhoto" src={item.photo} alt=""/></td>)
+                                                    :
+                                                    <td className="profilePhotoWrapper" ><img className="profilePhoto" src={unavailable} alt=""/></td>
+                                                    
                                                 }
                                                 {
                                                     props.items.data
                                                     .filter(item => item.id === cart.ownerItemId)
+                                                    .length > 0 
+                                                    ?
+                                                    props.items.data
+                                                    .filter(item => item.id === cart.ownerItemId)
                                                     .map((item, i) => 
                                                     <td key={i}>¥{item.price}</td>)
+                                                    :
+                                                    <td>Unavailable</td>
                                                 }
                                                 
                                                 <td>
@@ -272,13 +304,23 @@ const TradeRequestModal = (props) => {
                                                         </>
                                                         :
                                                         <>
-                                                            <Button variant="secondary" className="ml-2"  onClick={() => handleDM(cart.requesterId)}>
+                                                            <Button variant="secondary"  onClick={() => handleDM(cart.requesterId)}>
                                                                 <RiIcons.RiMessage2Fill className="mr-1"/>
                                                                 Message
                                                                 </Button>
-                                                            <Button variant="danger" className="ml-2" onClick={() => handleRemove(cart.id)}>
-                                                                <MdIcons.MdCancel className="mr-1"/>
-                                                                Remove</Button>
+                                                                {
+                                                                    cart.acceptTrade === "Declined" ?
+                                                                    <Button variant="danger" className="ml-2" onClick={() => handleRemove(cart.id)}>
+                                                                        <MdIcons.MdCancel className="mr-1"/>
+                                                                        Remove
+                                                                    </Button>
+                                                                    :
+                                                                    <Button variant="danger" className="ml-2" disabled>
+                                                                        <MdIcons.MdCancel className="mr-1"/>
+                                                                        Remove
+                                                                    </Button>
+                                                                }
+                                                            
                                                         </>
                                                     }
                                                 </td>

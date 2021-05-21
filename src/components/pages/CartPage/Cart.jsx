@@ -11,8 +11,9 @@ import * as RiIcons from 'react-icons/ri'
 import * as MdIcons from 'react-icons/md'
 import * as AiIcons from 'react-icons/ai'
 import ComposeModal from '../../layout/ComposeModal';
-
+import unavailable from '../../../assets/images/unavailable-1.png'
 import _ from "lodash";
+import moment from 'moment'
 
 const pageSize = 5;
 const Cart = () => {
@@ -39,6 +40,7 @@ const Cart = () => {
 
     useEffect(() => {
         setPaginatedCart(_(cart.data && cart.data
+            .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
             .filter(c => c.requesterId === parseInt(
                 window.localStorage.getItem("creds")
                 ?
@@ -48,6 +50,7 @@ const Cart = () => {
                 )))
             .slice(0).take(pageSize).value())
         setPaginatedCount((cart.data && cart.data
+            .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
             .filter(c => c.requesterId === parseInt(
                 window.localStorage.getItem("creds")
                 ?
@@ -64,6 +67,7 @@ const Cart = () => {
         setCurrentPage(pageNo);
         const startIndex = (pageNo - 1) * pageSize;
         const paginatedPost = _(cart.data && cart.data
+            .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
             .filter(c => c.requesterId === parseInt(
                 window.localStorage.getItem("creds")
                 ?
@@ -80,6 +84,7 @@ const Cart = () => {
         if(pages.length !== currentPage){
             const startIndex = (currentPage) * pageSize;
             const paginatedPost = _(cart.data && cart.data
+                .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
                 .filter(c => c.requesterId === parseInt(
                     window.localStorage.getItem("creds")
                     ?
@@ -97,6 +102,7 @@ const Cart = () => {
         if(currentPage !== 1){
             const startIndex = (currentPage - 2) * pageSize;
             const paginatedPost = _(cart.data && cart.data
+                .sort((a, b) => moment(b.transactionDate).toDate() - moment(a.transactionDate).toDate())
                 .filter(c => c.requesterId === parseInt(
                     window.localStorage.getItem("creds")
                     ?
@@ -157,8 +163,8 @@ const Cart = () => {
                                         <th>Price</th>
                                         <th>Trade Status</th>
                                         <th>Trade Date</th>
-                                        <th>Messages</th>
-                                        <th>Request</th>
+                                        <th>Direct Message</th>
+                                        <th>Request Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -176,14 +182,27 @@ const Cart = () => {
                                                 {
                                                     items.data
                                                     .filter(item => item.id === cart.requesterItemId)
+                                                    .length > 0
+                                                    ?
+                                                    items.data
+                                                    .filter(item => item.id === cart.requesterItemId)
                                                     .map((item, i) => 
                                                     <td key={i} className="profilePhotoWrapper" ><img className="profilePhoto" src={item.photo} alt=""/></td>)
+                                                    :
+                                                    <td className="profilePhotoWrapper" ><img className="profilePhoto" src={unavailable} alt=""/></td>
+                                                    
                                                 }
                                                 {
                                                     items.data
                                                     .filter(item => item.id === cart.requesterItemId)
+                                                    .length > 0
+                                                    ?
+                                                    items.data
+                                                    .filter(item => item.id === cart.requesterItemId)
                                                     .map((item, i) => 
                                                     <td key={i}>¥{item.price}</td>)
+                                                    :
+                                                    <td>Unavailable</td>
                                                 }
                                                 {
                                                     accounts.data
@@ -196,14 +215,27 @@ const Cart = () => {
                                                 {
                                                     items.data
                                                     .filter(item => item.id === cart.ownerItemId)
+                                                    .length > 0
+                                                    ?
+                                                    items.data
+                                                    .filter(item => item.id === cart.ownerItemId)
                                                     .map((item, i) => 
                                                     <td key={i} className="profilePhotoWrapper" ><img className="profilePhoto" src={item.photo} alt=""/></td>)
+                                                    :
+                                                    <td className="profilePhotoWrapper" ><img className="profilePhoto" src={unavailable} alt=""/></td>
+                                                    
                                                 }
                                                 {
                                                     items.data
                                                     .filter(item => item.id === cart.ownerItemId)
+                                                    .length > 0
+                                                    ?
+                                                    items.data
+                                                    .filter(item => item.id === cart.ownerItemId)
                                                     .map((item, i) => 
                                                     <td key={i}>¥{item.price}</td>)
+                                                    :
+                                                    <td>Unavailable</td>
                                                 }
                                                 
                                                 <td>

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Modal, Button, Badge } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { composeMessage } from '../../app/actions/MessageActions'
 import { Alert } from 'react-bootstrap'
 import moment from 'moment'
@@ -84,8 +84,14 @@ const ComposeModal = (props) => {
     }
     const handleConfirmationYes = () => {
         console.log(messageForm)
-        window.location.href = "/browse/inbox"
-        dispatch(composeMessage(messageForm));
+        if(parseInt(messageForm.receiverId) !== -1){
+            dispatch(composeMessage(messageForm));
+            window.location.href = "/browse/inbox"
+        }
+        else{
+            setDialog(false)
+            props.setShowComposeModal(true)
+        }
         
     }
     const handleConfirmationNo = () => {
@@ -110,19 +116,23 @@ const ComposeModal = (props) => {
                         </Modal.Header>
                         <Modal.Body>
                             <div className="container">
-                                {messageForm.receiverId === -1 && <>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <Alert variant="danger">Email does not exist!</Alert>
+                                {
+                                    parseInt(messageForm.receiverId) === -1 && 
+                                    <>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <Alert variant="danger">Email does not exist!</Alert>
+                                        </div>
                                     </div>
-                                </div></>}
+                                    </>
+                                }
                                 <div className="row">
                                     <div className="col-12 mb-2">
                                         <label htmlFor="to-id"><Badge variant="info">To :</Badge></label>
                                         {
                                             !props.directMessage
                                             ?
-                                            <input required type="email" className="form-control" id="to" onChange={handleChange}/>
+                                            <input required type="email" className="form-control" id="to" onChange={handleChange} placeholder="example@email.com"/>
                                             :
                                             <input required type="email" className="form-control" id="to" value={props.directEmail} disabled/>
                                         }

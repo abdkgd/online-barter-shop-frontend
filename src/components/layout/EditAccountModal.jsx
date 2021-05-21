@@ -90,8 +90,9 @@ const EditAccountModal = (props) => {
             flag2 = false;
         }
         if(flag1 && flag2){
-            dispatch(updateAccount(form));
+            window.location.href = "/myaccount"
             console.log(form);
+            dispatch(updateAccount(form));
             props.setShowModalEditAccount(false)
         }
         
@@ -141,13 +142,13 @@ const EditAccountModal = (props) => {
                             <div className="row mb-2">
                                 <div className="col-12">
                                     <label>Email:</label>
-                                    <input required defaultValue={props.myAccount.email} type="email" className="form-control" placeholder="Enter email" id="email" onChange={handleChange}/>
+                                    <input required defaultValue={props.myAccount.email} type="email" className="form-control" placeholder="example@email.com" id="email" onChange={handleChange}/>
                                 </div>
                             </div>
                             <div className="row mb-2">
                                 <div className="col-12">
                                     <label>Phone Number:</label>
-                                    <input required defaultValue={props.myAccount.phoneNumber} type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" className="form-control" placeholder="Enter phoneNumber" id="phoneNumber" onChange={handleChange}/>
+                                    <input required defaultValue={props.myAccount.phoneNumber} type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" className="form-control" placeholder="e.g 9999-999-9999" id="phoneNumber" onChange={handleChange}/>
                                 </div>
                             </div>
                             {showAlert1 && <Alert variant="danger">Incorrect Password!</Alert>}

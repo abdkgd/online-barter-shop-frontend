@@ -4,7 +4,9 @@ import Table from 'react-bootstrap/Table'
 import AddItemModal from './AddItemModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteItemById, getItemById } from "../../app/actions/ItemById";
+import { getCart } from "../../app/actions/CartActions"
 import EditItemModal from './EditItemModal'
+import { Alert } from 'react-bootstrap'
 import _ from "lodash";
 
 const pageSize = 5;
@@ -12,6 +14,7 @@ const MyItemsModal = (props) => {
 
     const dispatch = useDispatch()
     const item = useSelector(state => state.itemid)
+    const cart = useSelector(state => state.cart)
     const [showAddItemModal, setShowAddItemModal] = useState(false)
     const [showEditItemModal, setShowEditItemModal] = useState(false)
     const [paginatedMyItems, setPaginatedMyItems] = useState(null);
@@ -19,6 +22,7 @@ const MyItemsModal = (props) => {
     const [paginatedCount, setPaginatedCount] = useState()
 
     useEffect(() => {
+        dispatch(getCart())
         setPaginatedMyItems(_(props.data && props.data
             .filter(item => props.myId === item.ownerId)
             ).slice(0).take(pageSize).value());
@@ -27,6 +31,10 @@ const MyItemsModal = (props) => {
             .filter(item => props.myId === item.ownerId)
             ));
     }, [])
+
+    useEffect(() => {
+        
+    }, [cart])
     
     const handleAddItem = () => {
         props.setShow(false)
@@ -34,18 +42,18 @@ const MyItemsModal = (props) => {
     }
 
     const handleEditItem = (id) => {
-        props.setShow(false)
-        setShowEditItemModal(!showEditItemModal)
-        console.log(id);
-        const res = dispatch(getItemById(id));
-        console.log(item.data)
+            props.setShow(false)
+            setShowEditItemModal(!showEditItemModal)
+            console.log(id);
+            const res = dispatch(getItemById(id));
+            console.log(item.data)
     }
 
     const handleDeleteItem = (id) => {
-        props.setShow(false)
-        window.location.href = "/myaccount";
-        console.log(id);
-        dispatch(deleteItemById(id))
+            props.setShow(false)
+            window.location.href = "/myaccount";
+            console.log(id);
+            dispatch(deleteItemById(id))
     }
 
 
@@ -136,22 +144,45 @@ const MyItemsModal = (props) => {
                                             <td>{item.price}</td>
                                             <td>{item.category}</td>
                                             <td>{
-                                                    item.status === "Available" 
+                                                    cart.data &&
+                                                    cart.data
+                                                    .filter(c => c.requesterItemId === item.id && c.acceptTrade !== "Declined")
+                                                    .length > 0
+                                                    ?
+                                                    (item.status === "Sold" 
+                                                    ?
+                                                    <Badge variant="danger" className="mb-1" >{item.status}</Badge>
+                                                    :
+                                                    <Badge variant="warning" className="mb-1" >In Process</Badge>)
+                                                    :
+                                                    (item.status === "Available" 
                                                     ?
                                                     <Badge variant="success" className="mb-1" >{item.status}</Badge>
                                                     :
-                                                    <Badge variant="danger" className="mb-1" >{item.status}</Badge>
-                                                }</td>
+                                                    <Badge variant="danger" className="mb-1" >{item.status}</Badge>)
+                                                }
+                                                
+                                            </td>
                                             <td>{item.itemSpecification}</td>
                                             <td>{item.location}</td>
                                             <td>{item.publishDate}</td>
                                             {
                                                 
-                                                props.isProfileItem &&
+                                                props.isProfileItem && (cart.data &&
+                                                cart.data
+                                                .filter(c => (c.requesterItemId === item.id || c.ownerItemId === item.id) && c.acceptTrade !== "Declined")
+                                                .length > 0
+                                                ?
+                                                <td>
+                                                <Button variant="success" disabled className="mr-2">Edit Item</Button>
+                                                <Button variant="danger" disabled>Delete Item</Button>
+                                                </td>
+                                                :
                                                 <td>
                                                 <Button variant="success" onClick={() => handleEditItem(item.id)} className="mr-2">Edit Item</Button>
                                                 <Button variant="danger" onClick={() => handleDeleteItem(item.id)}>Delete Item</Button>
                                                 </td>
+                                                )
                                             }
                                         </tr>
                                         )

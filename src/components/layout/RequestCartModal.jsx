@@ -125,7 +125,7 @@ const RequestCartModal = (props) => {
                             </div>
                             <div className="row mb-2">
                                 <div className="col-12">
-                                    {isSelected && <Alert variant="danger">Please Select Trade Item</Alert>}
+                                    {isSelected && <Alert variant="danger">Please select item in Trade Item</Alert>}
                                 </div>
                             </div>
                             <div className="row mb-2">

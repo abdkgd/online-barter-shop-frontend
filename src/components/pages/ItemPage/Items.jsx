@@ -3,12 +3,11 @@ import ItemCard from '../../layout/ItemCard.jsx'
 import CardDeck from 'react-bootstrap/CardDeck'
 import ItemCategory from '../../layout/ItemCategory.jsx'
 import * as BsIcons from 'react-icons/bs'
-
 import { useDispatch, useSelector } from 'react-redux'
 import { getItems } from "../../../app/actions/ItemActions";
 import _ from "lodash";
 
-const pageSize = 8;
+const pageSize = 6;
 const Items = () => {
     const dispatch = useDispatch()
     const items = useSelector(state => state.item)
@@ -17,23 +16,48 @@ const Items = () => {
     const [paginatedItems, setPaginatedItems] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState("")
+    const [paginatedCount, setPaginatedCount] = useState()
 
     useEffect(() => {
         dispatch(getItems());
     }, [])
 
     useEffect(() => {
-        setPaginatedItems(_(items.data).slice(0).take(pageSize).value());
+        setPaginatedItems(_(items.data && items.data
+            .filter(item => item.ownerId !== parseInt(
+                window.localStorage.getItem("creds")
+                ?
+                window.localStorage.getItem("creds")
+                :
+                window.sessionStorage.getItem("creds")
+            )))
+            .slice(0).take(pageSize).value());
+        setPaginatedCount((items.data && items.data
+            .filter(item => item.ownerId !== parseInt(
+                window.localStorage.getItem("creds")
+                ?
+                window.localStorage.getItem("creds")
+                :
+                window.sessionStorage.getItem("creds")
+            ))))
     }, [items])
 
 
-    const pageCount = items.data ? Math.ceil(items.data.length / pageSize) : 0;
+    const pageCount = paginatedCount ? Math.ceil(paginatedCount.length / pageSize) : 0;
     const pages = _.range(1,pageCount + 1);
 
     const handlePagination = (pageNo) => {
         setCurrentPage(pageNo);
         const startIndex = (pageNo - 1) * pageSize;
-        const paginatedPost = _(items.data).slice(startIndex).take(pageSize).value();
+        const paginatedPost = _(items.data && items.data
+            .filter(item => item.ownerId !== parseInt(
+                window.localStorage.getItem("creds")
+                ?
+                window.localStorage.getItem("creds")
+                :
+                window.sessionStorage.getItem("creds")
+            )))
+            .slice(startIndex).take(pageSize).value();
         setPaginatedItems(paginatedPost);
         window.scrollTo(0, 0)
     }
@@ -41,7 +65,15 @@ const Items = () => {
     const handleNext = () => {
         if(pages.length !== currentPage){
             const startIndex = (currentPage) * pageSize;
-            const paginatedPost = _(items.data).slice(startIndex).take(pageSize).value();
+            const paginatedPost = _(items.data && items.data
+                .filter(item => item.ownerId !== parseInt(
+                    window.localStorage.getItem("creds")
+                    ?
+                    window.localStorage.getItem("creds")
+                    :
+                    window.sessionStorage.getItem("creds")
+                )))
+                .slice(startIndex).take(pageSize).value();
             setPaginatedItems(paginatedPost);
             setCurrentPage(currentPage + 1);
             window.scrollTo(0, 0)
@@ -50,7 +82,15 @@ const Items = () => {
     const handlePrevious = () => {
         if(currentPage !== 1){
             const startIndex = (currentPage - 2) * pageSize;
-            const paginatedPost = _(items.data).slice(startIndex ).take(pageSize).value();
+            const paginatedPost = _(items.data && items.data
+                .filter(item => item.ownerId !== parseInt(
+                    window.localStorage.getItem("creds")
+                    ?
+                    window.localStorage.getItem("creds")
+                    :
+                    window.sessionStorage.getItem("creds")
+                )))
+                .slice(startIndex ).take(pageSize).value();
             setPaginatedItems(paginatedPost);
             setCurrentPage(currentPage - 1);
             window.scrollTo(0, 0)
@@ -108,13 +148,6 @@ const Items = () => {
                                             .map((item, index)=>
                                             <div key={index}>
                                                 {
-                                                    item.ownerId !== parseInt(
-                                                        window.localStorage.getItem("creds")
-                                                        ?
-                                                        window.localStorage.getItem("creds")
-                                                        :
-                                                        window.sessionStorage.getItem("creds")
-                                                    ) &&
                                                     <ItemCard data={item}/>
                                                 }
                                             </div>
@@ -139,13 +172,6 @@ const Items = () => {
                                             .map((item, index)=>
                                             <div key={index}>
                                                 {
-                                                    item.ownerId !== parseInt(
-                                                    window.localStorage.getItem("creds")
-                                                    ?
-                                                    window.localStorage.getItem("creds")
-                                                    :
-                                                    window.sessionStorage.getItem("creds"))
-                                                    &&
                                                     <ItemCard data={item}/>
                                                 }
                                             </div>
